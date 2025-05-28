@@ -1,0 +1,67 @@
+---
+export interface Props {
+	videoId: string;
+	title?: string;
+	autoplay?: boolean;
+	loop?: boolean;
+	muted?: boolean;
+	controls?: boolean;
+}
+
+const { 
+	videoId, 
+	title = "YouTube video", 
+	autoplay = true, 
+	loop = true, 
+	muted = true,
+	controls = false 
+} = Astro.props;
+
+// Build YouTube URL with parameters
+const params = new URLSearchParams({
+	...(autoplay && { autoplay: '1' }),
+	...(muted && { mute: '1' }),
+	...(loop && { loop: '1', playlist: videoId }),
+	...(controls ? { controls: '1' } : { controls: '0' }),
+	modestbranding: '1',
+	rel: '0',
+	showinfo: '0',
+	iv_load_policy: '3', // Hide annotations
+	fs: '0', // Hide fullscreen button
+	disablekb: '1' // Disable keyboard controls
+});
+
+const embedUrl = `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+---
+
+<div class="video-container">
+	<iframe 
+		src={embedUrl}
+		title={title}
+		frameborder="0" 
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+		allowfullscreen
+		loading="lazy"
+	></iframe>
+</div>
+
+<style>
+	.video-container {
+		position: relative;
+		width: 100%;
+		padding-bottom: 56.25%; /* 16:9 aspect ratio */
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+		background: #000;
+	}
+
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: none;
+	}
+</style>
