@@ -1,9 +1,29 @@
 ---
+/**
+ * Main Layout Component
+ * Base layout with global styles, header, and footer
+ */
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
 export interface Props {
 	title?: string;
+	description?: string;
+	showHeader?: boolean;
+	showFooter?: boolean;
 }
 
-const { title = 'Chiaroscuro - A Game of Light and Shadow' } = Astro.props;
+const {
+	title = 'Torcheye Games - Indie Game Studio',
+	description = 'Indie game studio crafting atmospheric, narrative-driven experiences that explore the boundaries between light and shadow.',
+	showHeader = true,
+	showFooter = true
+} = Astro.props;
+
+// Get current path for active navigation state
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -13,36 +33,51 @@ const { title = 'Chiaroscuro - A Game of Light and Shadow' } = Astro.props;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
-		
+
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
 		<meta name="title" content={title} />
-		<meta name="description" content="Navigate a world where light and shadow shape reality. Manipulate contrasts to solve puzzles and uncover mysteries in Chiaroscuro." />
-		
+		<meta name="description" content={description} />
+
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://torcheyegames.com/" />
+		<meta property="og:url" content={Astro.url} />
 		<meta property="og:title" content={title} />
-		<meta property="og:description" content="Navigate a world where light and shadow shape reality. Manipulate contrasts to solve puzzles and uncover mysteries in Chiaroscuro." />
+		<meta property="og:description" content={description} />
 		<meta property="og:image" content="/og-image.png" />
-		
+
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://torcheyegames.com/" />
+		<meta property="twitter:url" content={Astro.url} />
 		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content="Navigate a world where light and shadow shape reality. Manipulate contrasts to solve puzzles and uncover mysteries in Chiaroscuro." />
+		<meta property="twitter:description" content={description} />
 		<meta property="twitter:image" content="/og-image.png" />
+
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	</head>
 	<body>
-		<slot />
+		<div class="site-wrapper">
+			{showHeader && <Header currentPath={currentPath} />}
+
+			<main id="main-content">
+				<slot />
+			</main>
+
+			{showFooter && <Footer />}
+		</div>
 	</body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+	.site-wrapper {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	main {
+		flex: 1;
 	}
 </style>

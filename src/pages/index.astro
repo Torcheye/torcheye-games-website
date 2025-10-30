@@ -3,7 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 ---
 
-<Layout title="Chiaroscuro - A Game of Light and Shadow">
+<Layout
+	title="Chiaroscuro - A Game of Light and Shadow"
+	description="Navigate a world where light and shadow shape reality. Manipulate contrasts to solve puzzles and uncover mysteries in Chiaroscuro."
+	showHeader={true}
+	showFooter={true}
+>
 	<main>
 		<section class="hero">
 			<h1 class="game-title">Chiaroscuro</h1>
@@ -61,8 +66,8 @@ import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 
 <style>
 	:global(html) {
-		background: #0a0a0a;
-		color: #e4e4e4;
+		background: #1e1c32;
+		color: #c6baac;
 		scroll-behavior: smooth;
 	}
 
@@ -97,7 +102,7 @@ import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 		font-weight: 300;
 		letter-spacing: -0.02em;
 		margin: 0;
-		background: linear-gradient(135deg, #ffffff 0%, #666666 100%);
+		background: linear-gradient(135deg, #d4c9bb 0%, #8a7f70 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
@@ -105,7 +110,7 @@ import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 
 	.tagline {
 		font-size: 1.25rem;
-		color: #999;
+		color: #8a7f70;
 		margin: 0.5rem 0 0;
 		font-weight: 300;
 	}
@@ -142,7 +147,7 @@ import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 	.description p {
 		font-size: 1.25rem;
 		line-height: 1.8;
-		color: #b4b4b4;
+		color: #b0a493;
 		margin: 0;
 	}
 
@@ -185,12 +190,12 @@ import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 	}
 
 	.contact a {
-		color: #666;
+		color: #8a7f70;
 		transition: color 0.3s ease, transform 0.3s ease;
 	}
 
 	.contact a:hover {
-		color: #e4e4e4;
+		color: #c6baac;
 		transform: translateY(-2px);
 	}
 
