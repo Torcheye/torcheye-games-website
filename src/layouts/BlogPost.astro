@@ -1,0 +1,437 @@
+---
+/**
+ * Blog Post Layout
+ * Layout for individual blog posts with metadata and sharing
+ */
+
+import Layout from './Layout.astro';
+
+export interface Props {
+  title: string;
+  date: Date;
+  excerpt: string;
+  tags?: string[];
+  author?: string;
+  coverImage?: string;
+  crosspost?: Array<{
+    platform: string;
+    url: string;
+  }>;
+  updatedDate?: Date;
+}
+
+const {
+  title,
+  date,
+  excerpt,
+  tags = [],
+  author = 'Torcheye Games',
+  coverImage,
+  crosspost,
+  updatedDate
+} = Astro.props;
+
+// Format dates
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(date);
+};
+
+const formattedDate = formatDate(date);
+const formattedUpdatedDate = updatedDate ? formatDate(updatedDate) : null;
+
+// Social sharing URLs
+const currentUrl = Astro.url.href;
+const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl)}`;
+const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+---
+
+<Layout title={`${title} - Torcheye Games Blog`} description={excerpt}>
+  <article class="blog-post">
+    <div class="container-narrow">
+      <!-- Back to Blog Link -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/blog" class="breadcrumb-link">← Back to Blog</a>
+      </nav>
+
+      <!-- Post Header -->
+      <header class="post-header">
+        <h1 class="post-title">{title}</h1>
+
+        <div class="post-meta">
+          <div class="post-meta-main">
+            <time datetime={date.toISOString()} class="post-date">
+              {formattedDate}
+            </time>
+            <span class="meta-separator">•</span>
+            <span class="post-author">{author}</span>
+          </div>
+
+          {formattedUpdatedDate && (
+            <div class="post-updated">
+              Updated: <time datetime={updatedDate?.toISOString()}>{formattedUpdatedDate}</time>
+            </div>
+          )}
+        </div>
+
+        {tags.length > 0 && (
+          <div class="post-tags">
+            {tags.map(tag => (
+              <a href={`/blog/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`} class="tag">
+                {tag}
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <!-- Cover Image -->
+      {coverImage && (
+        <div class="post-cover">
+          <img src={coverImage} alt={`Cover image for ${title}`} loading="eager" />
+        </div>
+      )}
+
+      <!-- Post Content -->
+      <div class="post-content">
+        <slot />
+      </div>
+
+      <!-- Post Footer -->
+      <footer class="post-footer">
+        <!-- Cross-post Links -->
+        {crosspost && crosspost.length > 0 && (
+          <div class="crosspost-section">
+            <h3 class="crosspost-title">Also published on:</h3>
+            <ul class="crosspost-list">
+              {crosspost.map(post => (
+                <li>
+                  <a
+                    href={post.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="crosspost-link"
+                  >
+                    {post.platform}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Social Sharing -->
+        <div class="share-section">
+          <h3 class="share-title">Share this post:</h3>
+          <div class="share-buttons">
+            <a
+              href={twitterShareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="share-btn share-twitter"
+              aria-label="Share on Twitter"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+              Twitter
+            </a>
+            <a
+              href={facebookShareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="share-btn share-facebook"
+              aria-label="Share on Facebook"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+              Facebook
+            </a>
+          </div>
+        </div>
+
+        <!-- Navigation to other posts -->
+        <div class="post-navigation">
+          <a href="/blog" class="nav-btn">← All Posts</a>
+        </div>
+      </footer>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .blog-post {
+    padding: var(--space-12) 0;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    margin-bottom: var(--space-8);
+  }
+
+  .breadcrumb-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    transition: color var(--transition-base);
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  /* Post Header */
+  .post-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .post-title {
+    font-size: clamp(var(--text-4xl), 6vw, var(--text-6xl));
+    font-family: var(--font-heading);
+    margin-bottom: var(--space-4);
+    line-height: 1.1;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .post-meta-main {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+  }
+
+  .post-date,
+  .post-author {
+    color: var(--color-text-tertiary);
+  }
+
+  .meta-separator {
+    color: var(--color-border);
+  }
+
+  .post-updated {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    font-style: italic;
+  }
+
+  /* Tags */
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .tag {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-tertiary);
+    transition: all var(--transition-base);
+  }
+
+  .tag:hover {
+    border-color: var(--color-border-light);
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  /* Cover Image */
+  .post-cover {
+    margin-bottom: var(--space-8);
+    border: var(--border-thick) solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .post-cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: none;
+  }
+
+  /* Post Content */
+  .post-content {
+    margin-bottom: var(--space-12);
+    font-size: var(--text-lg);
+    line-height: 1.8;
+  }
+
+  /* Enhance markdown content styles */
+  .post-content :global(h1),
+  .post-content :global(h2),
+  .post-content :global(h3) {
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-6);
+  }
+
+  .post-content :global(h2) {
+    padding-bottom: var(--space-3);
+    border-bottom: var(--border-medium) solid var(--color-border);
+  }
+
+  .post-content :global(p) {
+    margin-bottom: var(--space-6);
+  }
+
+  .post-content :global(img) {
+    margin: var(--space-8) 0;
+    border: var(--border-medium) solid var(--color-border);
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin-bottom: var(--space-6);
+    padding-left: var(--space-8);
+  }
+
+  .post-content :global(li) {
+    margin-bottom: var(--space-3);
+  }
+
+  .post-content :global(blockquote) {
+    margin: var(--space-8) 0;
+  }
+
+  /* Post Footer */
+  .post-footer {
+    border-top: var(--border-thick) solid var(--color-border);
+    padding-top: var(--space-8);
+    margin-top: var(--space-12);
+  }
+
+  /* Crosspost Section */
+  .crosspost-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .crosspost-title {
+    font-size: var(--text-base);
+    font-family: var(--font-body);
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+  }
+
+  .crosspost-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .crosspost-link {
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-secondary);
+    font-size: var(--text-sm);
+    transition: all var(--transition-base);
+  }
+
+  .crosspost-link:hover {
+    border-color: var(--color-border-light);
+    background: var(--color-bg-tertiary);
+  }
+
+  /* Share Section */
+  .share-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .share-title {
+    font-size: var(--text-base);
+    font-family: var(--font-body);
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-secondary);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: all var(--transition-base);
+  }
+
+  .share-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .share-btn:hover {
+    border-color: var(--color-border-light);
+    background: var(--color-bg-tertiary);
+    transform: translateY(-2px);
+  }
+
+  /* Post Navigation */
+  .post-navigation {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-6);
+  }
+
+  .nav-btn {
+    padding: var(--space-3) var(--space-6);
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-secondary);
+    font-size: var(--text-base);
+    font-weight: 500;
+    transition: all var(--transition-base);
+  }
+
+  .nav-btn:hover {
+    border-color: var(--color-border-light);
+    background: var(--color-bg-tertiary);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .blog-post {
+      padding: var(--space-8) 0;
+    }
+
+    .post-title {
+      font-size: clamp(var(--text-3xl), 8vw, var(--text-4xl));
+    }
+
+    .post-content {
+      font-size: var(--text-base);
+    }
+
+    .share-buttons {
+      flex-direction: column;
+    }
+
+    .share-btn {
+      justify-content: center;
+    }
+  }
+</style>
