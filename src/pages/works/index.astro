@@ -1,0 +1,243 @@
+---
+/**
+ * Works Page - Featured Games
+ * Showcases featured games from the portfolio
+ * TODO: Implement Phase 4 - add game cards with itch.io integration
+ */
+
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Works - Torcheye Games"
+  description="Explore our collection of indie games - atmospheric experiences that blend art, narrative, and meaningful gameplay."
+>
+  <div class="works-page">
+    <div class="container">
+      <!-- Hero Section -->
+      <section class="works-hero">
+        <h1 class="page-title">Our Games</h1>
+        <p class="page-subtitle">
+          Atmospheric experiences that explore light, shadow, and the spaces between
+        </p>
+      </section>
+
+      <!-- Featured Game - Chiaroscuro -->
+      <section class="featured-game">
+        <div class="game-card featured">
+          <div class="game-image">
+            <img src="/cover-image.png" alt="Chiaroscuro game cover" loading="eager" />
+          </div>
+          <div class="game-content">
+            <span class="game-badge">Featured</span>
+            <h2 class="game-title">Chiaroscuro</h2>
+            <p class="game-description">
+              A puzzle-platformer where light and shadow are not just visual elements,
+              but the very fabric of reality. Manipulate contrasts to solve puzzles,
+              reveal hidden paths, and uncover mysteries.
+            </p>
+            <div class="game-meta">
+              <span class="game-tag">Puzzle</span>
+              <span class="game-tag">Platformer</span>
+              <span class="game-tag">Atmospheric</span>
+            </div>
+            <div class="game-actions">
+              <a href="/" class="btn btn-primary">
+                View Game Page
+              </a>
+              <a href="https://store.steampowered.com/app/2831270" target="_blank" rel="noopener" class="btn">
+                Wishlist on Steam
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- More Games Section (Placeholder) -->
+      <section class="more-games">
+        <h2 class="section-title">More Games</h2>
+        <div class="placeholder-card">
+          <p>
+            More games coming soon! We're working on expanding our portfolio with
+            unique indie experiences.
+          </p>
+          <a href="/works/archive" class="btn">
+            View Archive
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .works-page {
+    padding: var(--space-16) 0;
+  }
+
+  /* Hero Section */
+  .works-hero {
+    text-align: center;
+    margin-bottom: var(--space-16);
+  }
+
+  .page-title {
+    font-size: clamp(var(--text-4xl), 6vw, var(--text-6xl));
+    margin-bottom: var(--space-4);
+  }
+
+  .page-subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-tertiary);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Featured Game */
+  .featured-game {
+    margin-bottom: var(--space-16);
+  }
+
+  .game-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    border: var(--border-thick) solid var(--color-border);
+    background: var(--color-bg-secondary);
+    overflow: hidden;
+  }
+
+  .game-card.featured {
+    border-color: var(--color-border-light);
+  }
+
+  .game-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .game-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+    border: none;
+  }
+
+  .game-card:hover .game-image img {
+    transform: scale(1.05);
+  }
+
+  .game-content {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .game-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: var(--border-medium) solid var(--color-border-light);
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-4);
+    align-self: flex-start;
+  }
+
+  .game-title {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .game-description {
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .game-meta {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+
+  .game-tag {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-primary);
+    color: var(--color-text-tertiary);
+  }
+
+  .game-actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  /* More Games Section */
+  .more-games {
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-8);
+  }
+
+  .placeholder-card {
+    background: var(--color-bg-secondary);
+    border: var(--border-medium) solid var(--color-border);
+    padding: var(--space-12);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .placeholder-card p {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .works-page {
+      padding: var(--space-8) 0;
+    }
+
+    .game-card {
+      grid-template-columns: 1fr;
+    }
+
+    .game-content {
+      padding: var(--space-6);
+    }
+
+    .game-title {
+      font-size: var(--text-3xl);
+    }
+
+    .game-actions {
+      flex-direction: column;
+    }
+
+    .game-actions .btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    .placeholder-card {
+      padding: var(--space-6);
+    }
+  }
+</style>

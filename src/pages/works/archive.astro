@@ -1,0 +1,271 @@
+---
+/**
+ * Works Archive Page
+ * Complete archive of all games
+ * TODO: Implement Phase 4 - add full game grid with filtering
+ */
+
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Archive - Torcheye Games"
+  description="Browse the complete archive of games from Torcheye Games."
+>
+  <div class="archive-page">
+    <div class="container">
+      <!-- Hero Section -->
+      <section class="archive-hero">
+        <h1 class="page-title">Game Archive</h1>
+        <p class="page-subtitle">
+          A complete collection of our games, past and present
+        </p>
+      </section>
+
+      <!-- Navigation -->
+      <nav class="archive-nav">
+        <a href="/works" class="nav-link">← Back to Featured</a>
+      </nav>
+
+      <!-- Placeholder Content -->
+      <section class="archive-content">
+        <div class="placeholder-card">
+          <h2>Archive Coming Soon</h2>
+          <p>
+            We're working on building out our game archive. This page will feature:
+          </p>
+          <ul class="feature-list">
+            <li>Complete game catalog with detailed information</li>
+            <li>Filter by genre, platform, and tags</li>
+            <li>Search functionality</li>
+            <li>Direct links to itch.io pages</li>
+          </ul>
+          <p class="note">
+            In the meantime, check out <a href="/works">our featured games</a>
+            or read about our development process in the <a href="/blog">blog</a>.
+          </p>
+        </div>
+
+        <!-- Example Game Grid Structure (for future) -->
+        <div class="grid-preview">
+          <h3>Future Layout Preview</h3>
+          <div class="game-grid">
+            <div class="game-card-mini">
+              <div class="game-thumbnail">
+                <img src="/cover-image.png" alt="Chiaroscuro" />
+              </div>
+              <div class="game-info">
+                <h4>Chiaroscuro</h4>
+                <p>Puzzle • Platformer</p>
+              </div>
+            </div>
+            <div class="game-card-mini placeholder-item">
+              <div class="game-thumbnail">
+                <div class="placeholder-img">?</div>
+              </div>
+              <div class="game-info">
+                <h4>Coming Soon</h4>
+                <p>TBA</p>
+              </div>
+            </div>
+            <div class="game-card-mini placeholder-item">
+              <div class="game-thumbnail">
+                <div class="placeholder-img">?</div>
+              </div>
+              <div class="game-info">
+                <h4>Coming Soon</h4>
+                <p>TBA</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .archive-page {
+    padding: var(--space-16) 0;
+    min-height: 60vh;
+  }
+
+  /* Hero */
+  .archive-hero {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .page-title {
+    font-size: clamp(var(--text-4xl), 6vw, var(--text-6xl));
+    margin-bottom: var(--space-4);
+  }
+
+  .page-subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-tertiary);
+  }
+
+  /* Navigation */
+  .archive-nav {
+    margin-bottom: var(--space-8);
+  }
+
+  .nav-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    transition: color var(--transition-base);
+  }
+
+  .nav-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  /* Placeholder Content */
+  .archive-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .placeholder-card {
+    background: var(--color-bg-secondary);
+    border: var(--border-thick) solid var(--color-border);
+    padding: var(--space-8);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .placeholder-card h2 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .placeholder-card p {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+  }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0;
+  }
+
+  .feature-list li {
+    padding: var(--space-3) var(--space-4);
+    border-left: var(--border-heavy) solid var(--color-border-light);
+    margin-bottom: var(--space-3);
+    color: var(--color-text-secondary);
+  }
+
+  .note {
+    font-size: var(--text-base);
+    color: var(--color-text-tertiary);
+    margin-top: var(--space-6);
+  }
+
+  .note a {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+  }
+
+  .note a:hover {
+    color: var(--color-accent-primary);
+  }
+
+  /* Grid Preview */
+  .grid-preview {
+    background: var(--color-bg-secondary);
+    border: var(--border-medium) solid var(--color-border);
+    padding: var(--space-8);
+  }
+
+  .grid-preview h3 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+    text-align: center;
+  }
+
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .game-card-mini {
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-primary);
+    transition: all var(--transition-base);
+    cursor: pointer;
+  }
+
+  .game-card-mini:hover {
+    border-color: var(--color-border-light);
+    transform: translateY(-4px);
+  }
+
+  .game-card-mini.placeholder-item {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .game-card-mini.placeholder-item:hover {
+    transform: none;
+  }
+
+  .game-thumbnail {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--color-bg-tertiary);
+  }
+
+  .game-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+  }
+
+  .placeholder-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-6xl);
+    font-family: var(--font-heading);
+    color: var(--color-border);
+  }
+
+  .game-info {
+    padding: var(--space-4);
+  }
+
+  .game-info h4 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .game-info p {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .archive-page {
+      padding: var(--space-8) 0;
+    }
+
+    .placeholder-card,
+    .grid-preview {
+      padding: var(--space-6);
+    }
+
+    .game-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

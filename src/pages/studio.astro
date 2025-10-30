@@ -1,0 +1,202 @@
+---
+/**
+ * Studio Page
+ * About page featuring team and studio information
+ * TODO: Implement Phase 3 - full studio content with team cards and mission statement
+ */
+
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Studio - Torcheye Games"
+  description="Meet the team behind Torcheye Games - an indie studio crafting atmospheric experiences."
+>
+  <div class="studio-page">
+    <div class="container">
+      <!-- Hero Section -->
+      <section class="studio-hero">
+        <h1 class="page-title">About Torcheye Games</h1>
+        <p class="page-subtitle">
+          An indie studio exploring the boundaries between light and shadow
+        </p>
+      </section>
+
+      <!-- Placeholder Content -->
+      <section class="placeholder-section">
+        <div class="placeholder-card">
+          <h2>Coming Soon</h2>
+          <p>
+            This page is currently under construction. Soon you'll be able to:
+          </p>
+          <ul class="feature-list">
+            <li>Meet our team</li>
+            <li>Learn about our studio philosophy</li>
+            <li>Discover our development process</li>
+            <li>See what drives us to create</li>
+          </ul>
+          <p class="placeholder-note">
+            In the meantime, check out our <a href="/works">games</a> or read our <a href="/blog">blog</a>.
+          </p>
+        </div>
+      </section>
+
+      <!-- Temporary Contact Info -->
+      <section class="contact-section">
+        <h2>Get in Touch</h2>
+        <p>Want to connect? We'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="mailto:hello@torcheyegames.com" class="contact-btn">
+            Email Us
+          </a>
+          <a href="https://twitter.com/torcheyegames" target="_blank" rel="noopener" class="contact-btn">
+            Twitter
+          </a>
+          <a href="https://discord.gg/RHggGYAQjp" target="_blank" rel="noopener" class="contact-btn">
+            Discord
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .studio-page {
+    padding: var(--space-16) 0;
+    min-height: 60vh;
+  }
+
+  .studio-hero {
+    text-align: center;
+    margin-bottom: var(--space-16);
+  }
+
+  .page-title {
+    font-size: clamp(var(--text-4xl), 6vw, var(--text-6xl));
+    margin-bottom: var(--space-4);
+  }
+
+  .page-subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-tertiary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Placeholder Section */
+  .placeholder-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .placeholder-card {
+    background: var(--color-bg-secondary);
+    border: var(--border-thick) solid var(--color-border);
+    padding: var(--space-8);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .placeholder-card h2 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .placeholder-card p {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+  }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0;
+  }
+
+  .feature-list li {
+    padding: var(--space-3) var(--space-4);
+    border-left: var(--border-heavy) solid var(--color-border-light);
+    margin-bottom: var(--space-3);
+    color: var(--color-text-secondary);
+  }
+
+  .placeholder-note {
+    font-size: var(--text-base);
+    color: var(--color-text-tertiary);
+    margin-top: var(--space-6);
+  }
+
+  .placeholder-note a {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+  }
+
+  .placeholder-note a:hover {
+    color: var(--color-accent-primary);
+  }
+
+  /* Contact Section */
+  .contact-section {
+    text-align: center;
+    padding: var(--space-12);
+    background: var(--color-bg-secondary);
+    border: var(--border-medium) solid var(--color-border);
+  }
+
+  .contact-section h2 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .contact-section p {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .contact-links {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .contact-btn {
+    padding: var(--space-3) var(--space-6);
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-primary);
+    font-size: var(--text-base);
+    font-weight: 500;
+    transition: all var(--transition-base);
+  }
+
+  .contact-btn:hover {
+    border-color: var(--color-border-light);
+    background: var(--color-bg-tertiary);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .studio-page {
+      padding: var(--space-8) 0;
+    }
+
+    .placeholder-card {
+      padding: var(--space-6);
+    }
+
+    .contact-section {
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .contact-links {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .contact-btn {
+      width: 100%;
+    }
+  }
+</style>
