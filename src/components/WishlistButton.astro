@@ -1,0 +1,102 @@
+---
+interface Props {
+	steamUrl?: string;
+	size?: 'default' | 'large';
+	class?: string;
+}
+
+const {
+	steamUrl = "https://store.steampowered.com/app/2831270",
+	size = 'default',
+	class: className = ''
+} = Astro.props;
+---
+
+<a href={steamUrl} class={`wishlist-button ${size} ${className}`} target="_blank" rel="noopener noreferrer">
+	<img src="/icons/icon_steam.svg" alt="" class="steam-icon" />
+	Wishlist on Steam
+</a>
+
+<style>
+	.wishlist-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.75rem;
+		background: linear-gradient(135deg, #1b2838 0%, #2a475e 100%);
+		color: var(--color-text-primary, #c6baac);
+		border: none;
+		border-radius: 0;
+		font-weight: 600;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
+
+	.wishlist-button:hover {
+		background: linear-gradient(135deg, #2a475e 0%, #1b2838 100%);
+		transform: scale(1.05);
+	}
+
+	.steam-icon {
+		border: none;
+		background: none;
+		display: block;
+	}
+
+	/* Default size */
+	.wishlist-button.default {
+		padding: 1.5rem 2rem;
+		font-size: 1.125rem;
+	}
+
+	.wishlist-button.default .steam-icon {
+		width: 2rem;
+		height: 2rem;
+	}
+
+	/* Large size */
+	.wishlist-button.large {
+		padding: 1.5rem 3rem;
+		font-size: 1.25rem;
+		margin-top: 1rem;
+	}
+
+	.wishlist-button.large .steam-icon {
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	.wishlist-button.large:hover {
+		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.wishlist-button.default {
+			padding: 1rem 1.5rem;
+			font-size: 1rem;
+		}
+
+		.wishlist-button.default .steam-icon {
+			width: 1.25rem;
+			height: 1.25rem;
+		}
+
+		.wishlist-button.large {
+			padding: 1.25rem 2rem;
+			font-size: 1.125rem;
+		}
+
+		.wishlist-button.large .steam-icon {
+			width: 1.5rem;
+			height: 1.5rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.wishlist-button.large {
+			padding: 1rem 1.5rem;
+			font-size: 1rem;
+		}
+	}
+</style>
