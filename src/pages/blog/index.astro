@@ -60,8 +60,21 @@ const formatDate = (date: Date) => {
       <!-- Blog Posts -->
       <section class="posts-section">
         {posts.length === 0 ? (
-          <div class="no-posts">
-            <p>No blog posts yet. Check back soon!</p>
+          <div class="coming-soon">
+            <div class="coming-soon-content">
+              <h2 class="coming-soon-title">Coming Soon</h2>
+              <div class="coming-soon-divider"></div>
+              <p class="coming-soon-text">
+                Our dev blog is launching soon. Stay tuned for insights into our game development process,
+                technical breakdowns, art discussions, and studio updates.
+              </p>
+              <div class="coming-soon-topics">
+                <span class="topic">Game Design</span>
+                <span class="topic">Art & Tech Art</span>
+                <span class="topic">Programming</span>
+                <span class="topic">Devlogs</span>
+              </div>
+            </div>
           </div>
         ) : (
           <div class="posts-grid">
@@ -193,15 +206,60 @@ const formatDate = (date: Date) => {
     margin-bottom: var(--space-16);
   }
 
-  .no-posts {
-    text-align: center;
+  /* Coming Soon Section */
+  .coming-soon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
     padding: var(--space-12);
     background: var(--color-bg-secondary);
-    border: var(--border-medium) solid var(--color-border);
+    border: var(--border-thick) solid var(--color-border);
   }
 
-  .no-posts p {
+  .coming-soon-content {
+    max-width: 600px;
+    text-align: center;
+  }
+
+  .coming-soon-title {
+    font-family: var(--font-heading);
+    font-size: clamp(var(--text-4xl), 5vw, var(--text-5xl));
+    margin-bottom: var(--space-6);
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .coming-soon-divider {
+    width: 80px;
+    height: 4px;
+    background: var(--color-border-light);
+    margin: 0 auto var(--space-8);
+  }
+
+  .coming-soon-text {
     font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-8);
+  }
+
+  .coming-soon-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+  }
+
+  .topic {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-primary);
     color: var(--color-text-tertiary);
   }
 
@@ -331,6 +389,23 @@ const formatDate = (date: Date) => {
   @media (max-width: 768px) {
     .blog-page {
       padding: var(--space-8) 0;
+    }
+
+    .coming-soon {
+      min-height: 300px;
+      padding: var(--space-6);
+    }
+
+    .coming-soon-title {
+      font-size: clamp(var(--text-3xl), 8vw, var(--text-4xl));
+    }
+
+    .coming-soon-text {
+      font-size: var(--text-base);
+    }
+
+    .coming-soon-topics {
+      gap: var(--space-2);
     }
 
     .posts-grid {
