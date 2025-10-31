@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import HeroSection from '../components/HeroSection.astro';
 import FeatureShowcase from '../components/FeatureShowcase.astro';
 import MediaGallery from '../components/MediaGallery.astro';
+import WishlistButton from '../components/WishlistButton.astro';
 ---
 
 <Layout
@@ -17,7 +18,7 @@ import MediaGallery from '../components/MediaGallery.astro';
 			videoId="d-wI4MjySb8"
 			title="Chiaroscuro"
 			tagline="A Game of Light and Shadow"
-			releaseYear="2026"
+			releaseYear="TBD"
 			steamUrl="https://store.steampowered.com/app/2831270"
 		/>
 
@@ -26,23 +27,23 @@ import MediaGallery from '../components/MediaGallery.astro';
 			features={[
 				{
 					title: "Embrace Shadows",
-					description: "Navigate through darkness and discover hidden paths where light cannot reach.",
+					description: "Utilize shadows for exploration and survival",
 					coverImage: "/cover-image.png",
-					gifUrl: "/cover-image.png",
+					gifUrl: "/images/features/Light Object Demo.gif",
 					align: "left"
 				},
 				{
 					title: "Manipulate Light",
-					description: "Control light sources to solve intricate puzzles and reveal the truth.",
+					description: "Control light to solve puzzles and shape reality",
 					coverImage: "/cover-image.png",
-					gifUrl: "/cover-image.png",
+					gifUrl: "/images/features/Vine Demo.gif",
 					align: "right"
 				},
 				{
-					title: "Explore Contrasts",
-					description: "Experience a world where the boundary between light and shadow shapes reality itself.",
+					title: "Explore Dreams",
+					description: "Unravel mysteries in a surreal, dreamlike world",
 					coverImage: "/cover-image.png",
-					gifUrl: "/cover-image.png",
+					gifUrl: "/images/features/Player Shadow Dimension.gif",
 					align: "left"
 				}
 			]}
@@ -53,12 +54,18 @@ import MediaGallery from '../components/MediaGallery.astro';
 			showHeading={false}
 			autoPlayInterval={3000}
 			images={[
-				{ id: 1, url: "/cover-image.png", alt: "Chiaroscuro gameplay 1" },
-				{ id: 2, url: "/cover-image.png", alt: "Chiaroscuro gameplay 2" },
-				{ id: 3, url: "/cover-image.png", alt: "Chiaroscuro gameplay 3" },
-				{ id: 4, url: "/cover-image.png", alt: "Chiaroscuro gameplay 4" },
-				{ id: 5, url: "/cover-image.png", alt: "Chiaroscuro gameplay 5" },
-				{ id: 6, url: "/cover-image.png", alt: "Chiaroscuro gameplay 6" }
+				{ id: 1, url: "/images/screenshots/screenshot_1.png", alt: "Gameplay Screenshot" },
+				{ id: 2, url: "/images/screenshots/screenshot_4.png", alt: "Gameplay Screenshot" },
+				{ id: 3, url: "/images/screenshots/screenshot_5.png", alt: "Gameplay Screenshot" },
+				{ id: 4, url: "/images/screenshots/screenshot_6.png", alt: "Gameplay Screenshot" },
+				{ id: 5, url: "/images/screenshots/screenshot_7.png", alt: "Gameplay Screenshot" },
+				{ id: 6, url: "/images/screenshots/screenshot_8.png", alt: "Gameplay Screenshot" },
+				{ id: 6, url: "/images/screenshots/screenshot_10.png", alt: "Gameplay Screenshot" },
+				{ id: 6, url: "/images/screenshots/screenshot_11.png", alt: "Gameplay Screenshot" },
+				{ id: 6, url: "/images/screenshots/screenshot_12.png", alt: "Gameplay Screenshot" },
+				{ id: 6, url: "/images/screenshots/screenshot_13.png", alt: "Gameplay Screenshot" },
+				{ id: 6, url: "/images/screenshots/screenshot_14.png", alt: "Gameplay Screenshot" },
+				{ id: 6, url: "/images/screenshots/screenshot_15.png", alt: "Gameplay Screenshot" },
 			]}
 		/>
 
@@ -71,12 +78,7 @@ import MediaGallery from '../components/MediaGallery.astro';
 					but the very fabric of reality. Manipulate contrasts to solve puzzles, reveal hidden paths,
 					and uncover the mysteries of a realm caught between illumination and darkness.
 				</p>
-				<a href="https://store.steampowered.com/app/2831270" class="cta-button" target="_blank" rel="noopener">
-					<svg class="cta-icon" viewBox="0 0 24 24" fill="currentColor">
-						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.49L17.5 6.5 9.99 9.99 6.5 17.5zm5.5-6.6c.61 0 1.1.49 1.1 1.1s-.49 1.1-1.1 1.1-1.1-.49-1.1-1.1.49-1.1 1.1-1.1z" />
-					</svg>
-					Wishlist on Steam
-				</a>
+				<WishlistButton steamUrl="https://store.steampowered.com/app/2831270" size="large" />
 			</div>
 		</section>
 	</main>
@@ -135,32 +137,6 @@ import MediaGallery from '../components/MediaGallery.astro';
 		max-width: 700px;
 	}
 
-	.cta-button {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.75rem;
-		padding: 1.5rem 3rem;
-		background: linear-gradient(135deg, #1b2838 0%, #2a475e 100%);
-		color: var(--color-text-primary, #c6baac);
-		border: 2px solid var(--color-border-light, #c6baac);
-		text-decoration: none;
-		font-size: 1.25rem;
-		font-weight: 600;
-		transition: all 0.3s ease;
-		margin-top: 1rem;
-	}
-
-	.cta-button:hover {
-		background: linear-gradient(135deg, #2a475e 0%, #1b2838 100%);
-		transform: scale(1.05);
-		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-	}
-
-	.cta-icon {
-		width: 1.75rem;
-		height: 1.75rem;
-	}
-
 	/* Responsive */
 	@media (max-width: 768px) {
 		.final-cta {
@@ -174,26 +150,11 @@ import MediaGallery from '../components/MediaGallery.astro';
 		.cta-description {
 			font-size: 1.125rem;
 		}
-
-		.cta-button {
-			padding: 1.25rem 2rem;
-			font-size: 1.125rem;
-		}
-
-		.cta-icon {
-			width: 1.5rem;
-			height: 1.5rem;
-		}
 	}
 
 	@media (max-width: 480px) {
 		.final-cta {
 			padding: 3rem 1rem;
-		}
-
-		.cta-button {
-			padding: 1rem 1.5rem;
-			font-size: 1rem;
 		}
 	}
 </style>
