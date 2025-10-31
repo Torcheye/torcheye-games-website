@@ -2,7 +2,6 @@
 /**
  * Studio Page
  * About page featuring team and studio information
- * TODO: Implement Phase 3 - full studio content with team cards and mission statement
  */
 
 import Layout from '../layouts/Layout.astro';
@@ -17,34 +16,55 @@ import Layout from '../layouts/Layout.astro';
       <!-- Hero Section -->
       <section class="studio-hero">
         <h1 class="page-title">About Torcheye Games</h1>
-        <p class="page-subtitle">
-          An indie studio exploring the boundaries between light and shadow
-        </p>
+        <ul class="mission-statement">
+          <li>Innovation at the foremost</li>
+          <li>Thought-provoking</li>
+          <li>Aesthetically groundbreaking</li>
+        </ul>
       </section>
 
-      <!-- Placeholder Content -->
-      <section class="placeholder-section">
-        <div class="placeholder-card">
-          <h2>Coming Soon</h2>
-          <p>
-            This page is currently under construction. Soon you'll be able to:
-          </p>
-          <ul class="feature-list">
-            <li>Meet our team</li>
-            <li>Learn about our studio philosophy</li>
-            <li>Discover our development process</li>
-            <li>See what drives us to create</li>
-          </ul>
-          <p class="placeholder-note">
-            In the meantime, check out our <a href="/works">games</a> or read our <a href="/blog">blog</a>.
-          </p>
+      <!-- Team Section -->
+      <section class="team-section">
+        <h2 class="section-title">The Team</h2>
+        <div class="team-grid">
+          <!-- Team Member 1 - King -->
+          <div class="team-card">
+            <div class="team-image">
+              <img src="/images/team/King.jpg" alt="King - Founder & Developer" />
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">King Zhou</h3>
+              <p class="team-role">Founder & Developer</p>
+              <p class="team-bio">
+                Passionate, curious, and creative. Devoted to crafting innovative, beautiful, and accessible 
+                interactive experiences. When not coding, enjoys euro board games, culinary arts, and 
+                exploring nature.
+              </p>
+            </div>
+          </div>
+
+          <!-- Team Member 2 - Timmie -->
+          <div class="team-card">
+            <div class="team-image">
+              <img src="/images/team/Timmie.jpg" alt="Timmie - Chief Morale Officer" />
+            </div>
+            <div class="team-info">
+              <h3 class="team-name">Timmie</h3>
+              <p class="team-role">Chief Morale Officer</p>
+              <p class="team-bio">
+                Professional keyboard warmer and bug finder (literally). Specializes in quality assurance
+                by walking across the keyboard at critical moments. Expert in nap optimization and
+                providing emotional support during crunch time.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Temporary Contact Info -->
+      <!-- Contact Section -->
       <section class="contact-section">
         <h2>Get in Touch</h2>
-        <p>Want to connect? We'd love to hear from you.</p>
+        <p>We'd love to hear from you.</p>
         <div class="contact-links">
           <a href="mailto:hello@torcheyegames.com" class="contact-btn">
             Email Us
@@ -67,9 +87,13 @@ import Layout from '../layouts/Layout.astro';
     min-height: 60vh;
   }
 
+  /* Hero Section */
   .studio-hero {
     text-align: center;
-    margin-bottom: var(--space-16);
+    margin-bottom: var(--space-20);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .page-title {
@@ -77,62 +101,94 @@ import Layout from '../layouts/Layout.astro';
     margin-bottom: var(--space-4);
   }
 
-  .page-subtitle {
+  .studio-tagline {
     font-size: var(--text-xl);
-    color: var(--color-text-tertiary);
-    max-width: 600px;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+  }
+
+  .mission-statement {
+    margin-top: var(--space-8);
+    padding: var(--space-6) var(--space-8);
+    border-left: var(--border-heavy) solid var(--color-border-light);
+    background: var(--color-bg-secondary);
+  }
+
+  .mission-statement p {
+    font-size: var(--text-lg);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  /* Team Section */
+  .team-section {
+    margin-bottom: var(--space-20);
+  }
+
+  .section-title {
+    font-size: var(--text-4xl);
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-8);
+    max-width: 1000px;
     margin: 0 auto;
   }
 
-  /* Placeholder Section */
-  .placeholder-section {
-    margin-bottom: var(--space-16);
-  }
-
-  .placeholder-card {
+  .team-card {
     background: var(--color-bg-secondary);
     border: var(--border-thick) solid var(--color-border);
     padding: var(--space-8);
-    max-width: 700px;
-    margin: 0 auto;
+    transition: all var(--transition-base);
   }
 
-  .placeholder-card h2 {
-    font-size: var(--text-3xl);
-    margin-bottom: var(--space-4);
+  .team-card:hover {
+    border-color: var(--color-border-light);
+    transform: translateY(-4px);
   }
 
-  .placeholder-card p {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-4);
+  .team-image {
+    margin-bottom: var(--space-6);
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: var(--border-medium) solid var(--color-border);
+    background: var(--color-bg-tertiary);
   }
 
-  .feature-list {
-    list-style: none;
-    padding: 0;
-    margin: var(--space-6) 0;
+  .team-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  .feature-list li {
-    padding: var(--space-3) var(--space-4);
-    border-left: var(--border-heavy) solid var(--color-border-light);
-    margin-bottom: var(--space-3);
-    color: var(--color-text-secondary);
+  .team-info {
+    text-align: left;
   }
 
-  .placeholder-note {
+  .team-name {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+  }
+
+  .team-role {
     font-size: var(--text-base);
     color: var(--color-text-tertiary);
-    margin-top: var(--space-6);
+    margin-bottom: var(--space-4);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
   }
 
-  .placeholder-note a {
-    color: var(--color-text-primary);
-    text-decoration: underline;
-  }
-
-  .placeholder-note a:hover {
-    color: var(--color-accent-primary);
+  .team-bio {
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
   }
 
   /* Contact Section */
@@ -182,7 +238,20 @@ import Layout from '../layouts/Layout.astro';
       padding: var(--space-8) 0;
     }
 
-    .placeholder-card {
+    .studio-hero {
+      margin-bottom: var(--space-12);
+    }
+
+    .mission-statement {
+      padding: var(--space-4) var(--space-6);
+    }
+
+    .team-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .team-card {
       padding: var(--space-6);
     }
 

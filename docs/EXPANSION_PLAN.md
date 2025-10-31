@@ -10,7 +10,7 @@
 ## Table of Contents
 1. [Project Overview](#project-overview)
 2. [Phase Breakdown](#phase-breakdown)
-3. [v0 + Claude Code Workflow](#v0--claude-code-workflow)
+3. [Claude Code Agent Workflow](#claude-code-agent-workflow)
 4. [Technology Stack](#technology-stack)
 5. [File Structure](#file-structure)
 6. [Design Guidelines](#design-guidelines)
@@ -132,12 +132,6 @@
   - [x] Final CTA section with description
   - [x] Social media in Footer (from Phase 1)
 
-**v0 Components Needed:**
-- Hero section with video background
-- Feature cards with hover effects
-- Awards showcase grid
-- Media gallery component
-
 **Content Needed:**
 - Trailer video URL
 - 3-5 GIFs with captions
@@ -171,11 +165,6 @@
   - [ ] Timeline of key milestones
   - [ ] Current projects overview
 
-**v0 Components Needed:**
-- Team member cards (brutalist style)
-- Contact info section with icons
-- Studio hero section
-
 **Content Needed:**
 - Your bio and role
 - Professional photo
@@ -206,11 +195,6 @@
   - [ ] One-line description
   - [ ] Tags/genre labels
   - [ ] Hover effects
-
-**v0 Components Needed:**
-- Game card component (dark brutalist)
-- Grid layout responsive columns
-- Archive page layout
 
 **Content Needed:**
 - 5-6 game titles
@@ -246,11 +230,6 @@
   - [ ] Create 2-3 sample posts
   - [ ] Test image/GIF embedding
   - [ ] Test code syntax highlighting
-
-**v0 Components Needed:**
-- Blog post card (for index)
-- Tag badge component
-- Blog post layout template
 
 **Content Needed:**
 - 2-3 initial blog posts (markdown)
@@ -303,23 +282,27 @@
 
 ---
 
-## v0 + Claude Code Workflow
+## Claude Code Agent Workflow
 
-### What is v0.dev?
-v0.dev is Vercel's AI-powered UI generator. It creates React/Next.js components based on text descriptions. We'll use it to rapidly prototype UI components, then convert them to Astro.
+### Overview
+All component development and website modifications will be handled directly in Claude Code using specialized agents. The `astro-frontend-dev` agent is specifically designed for Astro-based game studio websites and will handle all UI/UX implementation.
 
 ### Workflow Steps
 
-#### Step 1: Generate Component in v0
-1. Go to https://v0.dev
-2. Sign in with your account
-3. Describe the component you want
+#### Step 1: Define Component Requirements
+Clearly describe what you need:
+- Component purpose and functionality
+- Visual style (brutalist, minimalist, dark theme)
+- Specific colors and typography
+- Hover effects and interactions
+- Responsive behavior
+- Content structure
 
-**Example Prompt:**
+**Example Request:**
 ```
 Create a dark-themed brutalist game card component with:
 - Square thumbnail image (300x300)
-- Game title in large serif font
+- Game title in IM Fell English font
 - One-line description
 - "View on itch.io" button
 - Hover effect that shifts the card slightly
@@ -329,67 +312,73 @@ Create a dark-themed brutalist game card component with:
 - No rounded corners
 ```
 
-4. Review the generated component
-5. Iterate with follow-up prompts if needed ("make the border thicker", "change hover animation", etc.)
-6. Copy the final JSX/React code
+#### Step 2: Agent Handles Implementation
+The astro-frontend-dev agent will:
+- Analyze the current project structure using astro-mcp
+- Create components in proper Astro syntax
+- Apply your design system and CSS variables
+- Ensure responsive design across breakpoints
+- Follow accessibility best practices
+- Optimize for performance
 
-#### Step 2: Share Code with Claude Code
-1. Paste the v0 code into chat with me (Claude Code)
-2. Tell me where you want it used (e.g., "Convert this to GameCard.astro")
+#### Step 3: Review & Iterate
+1. The agent creates the component and integrates it
+2. Run `npm run dev` to see the result
+3. Test on different screen sizes
+4. Request adjustments if needed
+5. Agent makes refinements
 
-#### Step 3: I Convert to Astro
-I'll automatically:
-- Convert JSX to Astro component syntax
-- Replace React-specific code (useState, useEffect, etc.)
-- Adapt Tailwind classes to your custom CSS variables
-- Match your existing dark theme colors
-- Create the `.astro` file in the right location
+### Component Development Order
 
-#### Step 4: Test & Iterate
-1. Run `npm run dev` to see the component
-2. Test on different screen sizes
-3. Request adjustments if needed
-4. Repeat for other components
+Components will be developed phase by phase:
 
-### Recommended Component Generation Order
+1. **Phase 1: Foundation**
+   - Header navigation with mobile menu
+   - Footer with social links
+   - Base layout components
 
-1. **Header Navigation** (Phase 1)
-   - Prompt: "Brutalist dark header with logo, nav links (Home, Studio, Works, Blog), and language switcher"
+2. **Phase 2: Landing Page**
+   - Hero section with video
+   - Feature showcase cards
+   - Media gallery
+   - CTA sections
 
-2. **Footer** (Phase 1)
-   - Prompt: "Minimalist dark footer with social icons and copyright"
+3. **Phase 3: Studio Page**
+   - Team member cards
+   - Contact info section
+   - Studio hero section
 
-3. **Hero Section** (Phase 2)
-   - Prompt: "Full-width hero with video background, game title overlay, and CTA button"
+4. **Phase 4: Portfolio**
+   - Game card component
+   - Grid layouts
+   - Archive page structure
 
-4. **Feature Card** (Phase 2)
-   - Prompt: "Dark card with icon, title, description - for showcasing game features"
+5. **Phase 5: Blog**
+   - Blog post cards
+   - Tag badge components
+   - Post layout templates
 
-5. **Awards Grid** (Phase 2)
-   - Prompt: "Grid layout for displaying award badges and recognition"
-
-6. **Game Card** (Phase 4)
-   - Prompt: "Card for portfolio games with thumbnail, title, description, link"
-
-7. **Blog Post Card** (Phase 5)
-   - Prompt: "Blog preview card with cover image, title, excerpt, date, tags"
-
-8. **Team Member Card** (Phase 3)
-   - Prompt: "Card with photo, name, role, bio - brutalist style"
-
-### Tips for Better v0 Prompts
+### Best Practices for Component Requests
 
 ✅ **Do:**
-- Specify exact colors (#0a0a0a, #e4e4e4)
+- Specify exact colors from the design system
 - Mention "brutalist" or "minimalist" style
 - Describe hover effects and animations
-- Specify font styles (serif for headings)
+- Specify font styles (IM Fell English for headings)
 - Request dark theme explicitly
+- Include responsive behavior requirements
 
-❌ **Don't:**
-- Be vague ("make it look cool")
-- Forget to mention responsive behavior
-- Skip interaction details
+✅ **Also Good:**
+- Provide reference images or screenshots
+- Mention specific spacing/sizing needs
+- Describe user interactions
+- Note accessibility requirements
+
+❌ **Avoid:**
+- Vague descriptions ("make it look cool")
+- Forgetting responsive behavior
+- Skipping interaction details
+- Requesting features that require SSR
 
 ---
 
@@ -694,6 +683,6 @@ Your markdown content here...
 
 ---
 
-**Last Updated:** 2025-10-29
+**Last Updated:** 2025-10-31
 **Version:** 1.0
 **Document Owner:** Torcheye Games Team
