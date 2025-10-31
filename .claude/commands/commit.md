@@ -1,0 +1,1 @@
+Invoke git-commit-specialist to check for all present changes and make atomic commits
