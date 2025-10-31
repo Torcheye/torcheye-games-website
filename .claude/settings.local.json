@@ -8,7 +8,14 @@
       "Bash(git commit:*)",
       "Bash(git rm:*)",
       "Read(//d/**)",
-      "Bash(git show:*)"
+      "Bash(git show:*)",
+      "Bash(taskkill:*)",
+      "Bash(nul)",
+      "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" status)",
+      "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" diff .claude/settings.local.json)",
+      "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" diff src/pages/blog/index.astro)",
+      "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" log --oneline -10)",
+      "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" show HEAD:src/content/blog/welcome-to-torcheye-games.md)"
     ],
     "deny": [],
     "ask": []
