@@ -5,7 +5,9 @@
       "Bash(npm run build:*)",
       "Bash(npm run dev:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git rm:*)",
+      "Read(//d/**)"
     ],
     "deny": [],
     "ask": []
