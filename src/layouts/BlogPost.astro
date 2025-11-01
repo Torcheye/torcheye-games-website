@@ -49,7 +49,12 @@ const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURICompon
 const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
 ---
 
-<Layout title={`${title} - Torcheye Games Blog`} description={excerpt}>
+<Layout
+  title={`${title} - Torcheye Games Blog`}
+  description={excerpt}
+  image={coverImage}
+  type="article"
+>
   <article class="blog-post">
     <div class="container-narrow">
       <!-- Back to Blog Link -->
