@@ -3,7 +3,7 @@ interface Feature {
 	title: string;
 	description: string;
 	coverImage: string;
-	gifUrl: string;
+	videoUrl: string;
 	align: 'left' | 'right';
 }
 
@@ -18,21 +18,21 @@ const {
 			title: "Embrace Shadows",
 			description: "Explore vast, detailed environments crafted with stunning visuals and atmospheric depth.",
 			coverImage: "/cover-image.png",
-			gifUrl: "/cover-image.png",
+			videoUrl: "/cover-image.png",
 			align: "left" as const,
 		},
 		{
 			title: "Manipulate Lights",
 			description: "Engage in fast-paced, strategic battles with responsive controls and deep combat systems.",
 			coverImage: "/cover-image.png",
-			gifUrl: "/cover-image.png",
+			videoUrl: "/cover-image.png",
 			align: "right" as const,
 		},
 		{
 			title: "Explore Dreams",
 			description: "Experience compelling narratives with memorable characters and choices that shape your journey.",
 			coverImage: "/cover-image.png",
-			gifUrl: "/cover-image.png",
+			videoUrl: "/cover-image.png",
 			align: "left" as const,
 		},
 	],
@@ -64,12 +64,14 @@ const {
 							class="feature-image feature-cover"
 							loading="lazy"
 						/>
-						<img
-							src={feature.gifUrl}
-							alt={`${feature.title} animation`}
-							class="feature-image feature-gif"
-							loading="lazy"
-						/>
+						<video
+							src={feature.videoUrl}
+							class="feature-image feature-video"
+							autoplay
+							loop
+							muted
+							playsinline
+						></video>
 					</div>
 				</div>
 			))}
@@ -188,7 +190,7 @@ const {
 		z-index: 1;
 	}
 
-	.feature-gif {
+	.feature-video {
 		opacity: 0;
 		z-index: 2;
 	}
@@ -197,7 +199,7 @@ const {
 		opacity: 0;
 	}
 
-	.feature-item:hover .feature-gif {
+	.feature-item:hover .feature-video {
 		opacity: 1;
 		transform: scale(1.05);
 	}
