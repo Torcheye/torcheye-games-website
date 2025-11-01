@@ -4,6 +4,28 @@ import HeroSection from '../components/HeroSection.astro';
 import FeatureShowcase from '../components/FeatureShowcase.astro';
 import MediaGallery from '../components/MediaGallery.astro';
 import WishlistButton from '../components/WishlistButton.astro';
+import { readdir } from 'node:fs/promises';
+import { join } from 'node:path';
+
+// Dynamically load all screenshot images from the public/images/screenshots directory
+const screenshotsDir = join(process.cwd(), 'public', 'images', 'screenshots');
+const screenshotFiles = await readdir(screenshotsDir);
+
+// Filter for image files and sort them naturally by filename
+const imageExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif'];
+const screenshots = screenshotFiles
+	.filter(file => imageExtensions.some(ext => file.toLowerCase().endsWith(ext)))
+	.sort((a, b) => {
+		// Extract numbers from filenames for natural sorting (e.g., screenshot_1, screenshot_2, etc.)
+		const numA = parseInt(a.match(/\d+/)?.[0] || '0');
+		const numB = parseInt(b.match(/\d+/)?.[0] || '0');
+		return numA - numB;
+	})
+	.map((filename, index) => ({
+		id: index + 1,
+		url: `/images/screenshots/${filename}`,
+		alt: `Gameplay Screenshot ${index + 1}`
+	}));
 ---
 
 <Layout
@@ -53,20 +75,7 @@ import WishlistButton from '../components/WishlistButton.astro';
 		<MediaGallery
 			showHeading={false}
 			autoPlayInterval={3000}
-			images={[
-				{ id: 1, url: "/images/screenshots/screenshot_1.png", alt: "Gameplay Screenshot" },
-				{ id: 2, url: "/images/screenshots/screenshot_4.png", alt: "Gameplay Screenshot" },
-				{ id: 3, url: "/images/screenshots/screenshot_5.png", alt: "Gameplay Screenshot" },
-				{ id: 4, url: "/images/screenshots/screenshot_6.png", alt: "Gameplay Screenshot" },
-				{ id: 5, url: "/images/screenshots/screenshot_7.png", alt: "Gameplay Screenshot" },
-				{ id: 6, url: "/images/screenshots/screenshot_8.png", alt: "Gameplay Screenshot" },
-				{ id: 6, url: "/images/screenshots/screenshot_10.png", alt: "Gameplay Screenshot" },
-				{ id: 6, url: "/images/screenshots/screenshot_11.png", alt: "Gameplay Screenshot" },
-				{ id: 6, url: "/images/screenshots/screenshot_12.png", alt: "Gameplay Screenshot" },
-				{ id: 6, url: "/images/screenshots/screenshot_13.png", alt: "Gameplay Screenshot" },
-				{ id: 6, url: "/images/screenshots/screenshot_14.png", alt: "Gameplay Screenshot" },
-				{ id: 6, url: "/images/screenshots/screenshot_15.png", alt: "Gameplay Screenshot" },
-			]}
+			images={screenshots}
 		/>
 
 		<!-- Final CTA Section -->
