@@ -1,7 +1,7 @@
 # Torcheye Games Website - Project Documentation
 
 **Last Updated:** 2025-10-31
-**Current Phase:** Phase 6 Complete - Ready for Future Enhancements
+**Current Phase:** Phase 6.2 Complete - Performance Optimized & Production Ready
 
 ---
 
@@ -25,16 +25,20 @@
 - Implement markdown-based dev blog with tagging (1-2 posts/month)
 - Prepare for future: multi-language support (EN/CN) and interactive light elements
 
-### Current Status (Phase 6 Complete)
+### Current Status (Phase 6.2 Complete - Performance Optimized)
 - ✅ Single-page Chiaroscuro landing with enhanced features
 - ✅ Dark brutalist theme (Noire Truth palette)
 - ✅ Global navigation and footer
 - ✅ Blog infrastructure with Content Collections
 - ✅ Media gallery with lightbox
-- ✅ Feature showcase with hover animations
+- ✅ Feature showcase with hover animations and MP4 videos
 - ✅ Responsive design (mobile/tablet/desktop)
 - ✅ SEO optimization ready
-- ✅ Performance optimized
+- ✅ **Performance fully optimized (96% reduction in page weight)**
+  - Screenshots: WebP format, 55-283KB each (~3MB total)
+  - Feature videos: MP4 format, 374-506KB each (~1.4MB total)
+  - Total page weight: ~3MB (down from ~70MB)
+  - Proper font loading with preconnect optimization
 
 ### Site Structure
 - **Home** (`/`) - Chiaroscuro game landing page
@@ -84,7 +88,7 @@ src/
 
 public/images/
 ├── screenshots/       # Game screenshots (WebP)
-├── features/          # Feature GIFs
+├── features/          # Feature videos (MP4)
 ├── team/              # Team photos
 └── blog/              # Blog cover images
 ```
@@ -217,9 +221,11 @@ Edit the `socialLinks` array in `src/components/Footer.astro`
 - Ensure images are in `/public/` folder
 - Use absolute paths: `/images/...` not `../images/...`
 
-**Performance**
-- Compress images before adding (see [PERFORMANCE_RECOMMENDATIONS.md](./PERFORMANCE_RECOMMENDATIONS.md))
-- Target: Screenshots 200-500KB (WebP), GIFs 500KB-1MB
+**Performance** ✅ OPTIMIZED
+- All images optimized to WebP format (55-283KB per screenshot)
+- All feature demonstrations converted to MP4 videos (374-506KB per video)
+- Total page weight reduced from ~70MB to ~3MB (96% reduction)
+- See [PERFORMANCE_COMPLETED.md](./PERFORMANCE_COMPLETED.md) for full optimization report
 
 **Common commands**
 ```bash
@@ -233,7 +239,7 @@ npm run preview  # Preview production build
 ## Resources
 
 - [Astro Documentation](https://docs.astro.build)
-- [PERFORMANCE_RECOMMENDATIONS.md](./PERFORMANCE_RECOMMENDATIONS.md)
+- [PERFORMANCE_COMPLETED.md](./PERFORMANCE_COMPLETED.md) - Performance optimization completion report
 - [ACCESSIBILITY_AUDIT.md](./ACCESSIBILITY_AUDIT.md)
 
 ---
