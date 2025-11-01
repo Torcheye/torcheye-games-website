@@ -15,7 +15,8 @@
       "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" diff .claude/settings.local.json)",
       "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" diff src/pages/blog/index.astro)",
       "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" log --oneline -10)",
-      "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" show HEAD:src/content/blog/welcome-to-torcheye-games.md)"
+      "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" show HEAD:src/content/blog/welcome-to-torcheye-games.md)",
+      "Bash(npm run preview:*)"
     ],
     "deny": [],
     "ask": []
