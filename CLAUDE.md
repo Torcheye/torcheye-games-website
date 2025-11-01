@@ -1,0 +1,1 @@
+- always refer to PROJECT_DOC.md before making edits and changes. And after changes update projcet doc for content and progress tracking.
