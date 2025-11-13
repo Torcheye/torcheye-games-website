@@ -1,8 +1,8 @@
 # Torcheye Games Website - Project Documentation
 
-**Last Updated:** 2025-10-31
-**Current Phase:** Phase 6.2 Complete - Performance Optimized & Production Ready
-**Latest Changes:** Studio page mission statement styling enhanced (larger text, better alignment)
+**Last Updated:** 2025-11-13
+**Current Phase:** Phase 6.3 - Giscus Comment System Added
+**Latest Changes:** Implemented Giscus comment system for blog posts (requires GitHub Discussions setup)
 
 ---
 
@@ -26,11 +26,12 @@
 - Implement markdown-based dev blog with tagging (1-2 posts/month)
 - Prepare for future: multi-language support (EN/CN) and interactive light elements
 
-### Current Status (Phase 6.2 Complete - Performance Optimized)
+### Current Status (Phase 6.3 - Giscus Comment System Added)
 - ✅ Single-page Chiaroscuro landing with enhanced features
 - ✅ Dark brutalist theme (Noire Truth palette)
 - ✅ Global navigation and footer
 - ✅ Blog infrastructure with Content Collections
+- ✅ **Giscus comment system for blog posts** (GitHub Discussions-based)
 - ✅ Media gallery with lightbox
 - ✅ Feature showcase with hover animations and MP4 videos
 - ✅ Responsive design (mobile/tablet/desktop)
@@ -159,6 +160,29 @@ Edit `src/pages/studio.astro` and add photos to `public/images/team/`
 ### Updating Social Links
 
 Edit the `socialLinks` array in `src/components/Footer.astro`
+
+### Configuring Giscus Comments
+
+The blog uses Giscus for comments, powered by GitHub Discussions. To complete the setup:
+
+1. **Enable GitHub Discussions** on your repository:
+   - Go to repository Settings → Features
+   - Check "Discussions"
+
+2. **Get your configuration values**:
+   - Visit https://giscus.app
+   - Enter your repository: `Torcheye/torcheye-games-website`
+   - Select a category (e.g., "General" or "Announcements")
+   - Copy the generated `data-repo-id` and `data-category-id`
+
+3. **Update the component**:
+   - Edit `src/components/Giscus.astro`
+   - Replace `YOUR_REPO_ID` with your actual repo ID
+   - Replace `YOUR_CATEGORY_ID` with your actual category ID
+
+4. **Theme customization** (optional):
+   - Current theme: `dark` (matches site design)
+   - Other options: `light`, `dark_dimmed`, `transparent_dark`, `preferred_color_scheme`
 
 ---
 
