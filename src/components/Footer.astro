@@ -12,7 +12,12 @@ import BackToTop from "@components/BackToTop.astro";
       </div>
     </div>
     <div class="flex items-center justify-between">
-      <div>&copy; {new Date().getFullYear()} • {SITE.TITLE}</div>
+      <div>
+        <div>&copy; {new Date().getFullYear()} • {SITE.TITLE}</div>
+        <div class="mt-1 text-xs text-black/60 dark:text-white/60">
+          Built with <a href="https://github.com/trevortylerlee/astro-micro" target="_blank" rel="noopener noreferrer" class="hover:text-black dark:hover:text-white">Astro Micro</a> (MIT)
+        </div>
+      </div>
       <div class="flex flex-wrap items-center gap-1.5">
         <button
           id="theme-toggle-button"
