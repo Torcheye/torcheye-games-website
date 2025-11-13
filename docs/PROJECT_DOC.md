@@ -2,7 +2,7 @@
 
 **Last Updated:** 2025-11-13
 **Current Phase:** Phase 6.3 - Giscus Comment System Added
-**Latest Changes:** Implemented Giscus comment system for blog posts (requires GitHub Discussions setup)
+**Latest Changes:** Added Astro Micro theme attribution to footer (MIT license)
 
 ---
 
@@ -29,7 +29,7 @@
 ### Current Status (Phase 6.3 - Giscus Comment System Added)
 - ✅ Single-page Chiaroscuro landing with enhanced features
 - ✅ Dark brutalist theme (Noire Truth palette)
-- ✅ Global navigation and footer
+- ✅ Global navigation and footer (with Astro Micro attribution)
 - ✅ Blog infrastructure with Content Collections
 - ✅ **Giscus comment system for blog posts** (GitHub Discussions-based)
 - ✅ Media gallery with lightbox
