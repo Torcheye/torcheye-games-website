@@ -1,49 +1,84 @@
 ---
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
-import { SITE } from "@consts";
+import { SITE, SOCIALS } from "@consts";
+
+const navLinks = [
+  { label: "Chiaroscuro", href: "/#chiaroscuro" },
+  { label: "Studio", href: "/studio" },
+  { label: "Blog", href: "/blog" },
+];
+
 ---
 
 <header transition:persist>
   <Container>
-    <div class="flex flex-wrap justify-between gap-y-2">
-      <Link href="/" underline={false}>
-        <div class="flex items-center gap-2 font-semibold">
-          <img
-            src="/favicon.png"
-            alt={`${SITE.TITLE} logo`}
-            class="h-6 w-6 rounded-sm object-cover"
-            width="24"
-            height="24"
-          />
-          {SITE.TITLE}
-        </div>
-      </Link>
-      <nav class="flex items-center gap-1 text-sm">
-        <Link href="/studio">studio</Link>
-        <span>/</span>
-        <Link href="/blog">blog</Link>
-        <span>/</span>
-        <button
-          id="magnifying-glass"
-          aria-label="Search"
-          class="flex items-center rounded-sm border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
-        >
-          <svg
-            height="16"
-            stroke-linejoin="round"
-            viewBox="0 0 16 16"
-            width="16"
-            style="color: currentcolor;"
-            ><path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M3.5 7C3.5 5.067 5.067 3.5 7 3.5C8.933 3.5 10.5 5.067 10.5 7C10.5 7.88461 10.1718 8.69256 9.63058 9.30876L9.30876 9.63058C8.69256 10.1718 7.88461 10.5 7 10.5C5.067 10.5 3.5 8.933 3.5 7ZM9.96544 11.0261C9.13578 11.6382 8.11014 12 7 12C4.23858 12 2 9.76142 2 7C2 4.23858 4.23858 2 7 2C9.76142 2 12 4.23858 12 7C12 8.11014 11.6382 9.13578 11.0261 9.96544L14.0303 12.9697L14.5607 13.5L13.5 14.5607L12.9697 14.0303L9.96544 11.0261Z"
-              fill="currentColor"></path></svg
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-4">
+        <Link href="/" underline={false}>
+          <div class="flex items-center gap-2 font-semibold">
+            <img
+              src="/favicon.png"
+              alt={`${SITE.TITLE} logo`}
+              class="h-6 w-6 rounded-sm object-cover"
+              width="24"
+              height="24"
+            />
+            {SITE.TITLE}
+          </div>
+        </Link>
+        <nav class="flex flex-wrap items-center gap-1 text-sm text-black/80 dark:text-white/80">
+          {
+            navLinks.map((link, index) => (
+              <>
+                <Link href={link.href}>{link.label}</Link>
+                {index < navLinks.length - 1 && <span>/</span>}
+              </>
+            ))
+          }
+          <span>/</span>
+          <button
+            id="magnifying-glass"
+            aria-label="Search"
+            class="flex items-center rounded-sm border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
           >
-          &nbsp;Search
-        </button>
-      </nav>
+            <svg
+              height="16"
+              stroke-linejoin="round"
+              viewBox="0 0 16 16"
+              width="16"
+              style="color: currentcolor;"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M3.5 7C3.5 5.067 5.067 3.5 7 3.5C8.933 3.5 10.5 5.067 10.5 7C10.5 7.88461 10.1718 8.69256 9.63058 9.30876L9.30876 9.63058C8.69256 10.1718 7.88461 10.5 7 10.5C5.067 10.5 3.5 8.933 3.5 7ZM9.96544 11.0261C9.13578 11.6382 8.11014 12 7 12C4.23858 12 2 9.76142 2 7C2 4.23858 4.23858 2 7 2C9.76142 2 12 4.23858 12 7C12 8.11014 11.6382 9.13578 11.0261 9.96544L14.0303 12.9697L14.5607 13.5L13.5 14.5607L12.9697 14.0303L9.96544 11.0261Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+            &nbsp;Search
+          </button>
+        </nav>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        {
+          SOCIALS.map((social) => (
+            <a
+              href={social.HREF}
+              class="group flex size-9 items-center justify-center rounded-sm border border-black/15 text-black hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:text-white dark:hover:bg-white/5 dark:focus-visible:bg-white/5"
+              aria-label={social.NAME}
+              target={social.HREF.startsWith("mailto") ? undefined : "_blank"}
+              rel={social.HREF.startsWith("mailto") ? undefined : "noopener noreferrer"}
+            >
+              <span
+                class="block h-4 w-4"
+                style={`background-color: currentColor; mask: url(${social.ICON}) no-repeat center / contain; -webkit-mask: url(${social.ICON}) no-repeat center / contain;`}
+                aria-hidden="true"
+              />
+            </a>
+          ))
+        }
+      </div>
     </div>
   </Container>
 </header>

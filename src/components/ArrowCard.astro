@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { formatDate, readingTime } from "@lib/utils";
 
 type Props = {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
@@ -8,18 +9,33 @@ type Props = {
 const { entry } = Astro.props as {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
 };
+
+const isBlogEntry = entry.collection === "blog";
+const formattedDate = isBlogEntry ? formatDate(entry.data.date) : null;
+const estimatedRead =
+  isBlogEntry && entry.body ? readingTime(entry.body) : null;
+const metaLine =
+  isBlogEntry && formattedDate && estimatedRead
+    ? `${formattedDate} • ${estimatedRead}`
+    : null;
+const description = entry.data.description ?? "";
 ---
 
 <a
   href={`/${entry.collection}/${entry.id}`}
-  class="not-prose group relative flex flex-nowrap rounded-lg border border-black/15 px-4 py-3 pr-10 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
+  class="not-prose group relative flex flex-nowrap rounded-xl border border-black/15 px-5 py-4 pr-12 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
 >
-  <div class="flex flex-1 flex-col truncate">
-    <div class="font-semibold">
+  <div class="flex flex-1 flex-col gap-1.5 min-w-0">
+    <div class="text-xl font-semibold leading-snug text-black dark:text-white">
       {entry.data.title}
     </div>
-    <div class="text-sm">
-      {entry.data.description}
+    {metaLine && (
+      <p class="text-xs font-medium lowercase tracking-wide text-black/60 dark:text-white/60">
+        {metaLine}
+      </p>
+    )}
+    <div class="text-sm text-black/70 dark:text-white/70">
+      {description}
     </div>
   </div>
   <svg
