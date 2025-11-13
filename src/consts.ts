@@ -29,15 +29,33 @@ export const PROJECTS: Metadata = {
 
 export const SOCIALS: Socials = [
   {
-    NAME: "Twitter",
-    HREF: "https://twitter.com/torcheyegames",
-  },
-  {
     NAME: "Discord",
     HREF: "https://discord.gg/RHggGYAQjp",
+    ICON: "/icons/discord.svg",
   },
   {
-    NAME: "Steam",
-    HREF: "https://store.steampowered.com/app/2831270",
+    NAME: "X",
+    HREF: "https://x.com/torcheyegames",
+    ICON: "/icons/x.svg",
+  },
+  {
+    NAME: "Email",
+    HREF: "mailto:hello@torcheyegames.com",
+    ICON: "/icons/email.svg",
+  },
+  {
+    NAME: "LinkedIn",
+    HREF: "https://www.linkedin.com/company/torcheye-games",
+    ICON: "/icons/linkedin.svg",
+  },
+  {
+    NAME: "Bilibili",
+    HREF: "https://space.bilibili.com/99004880",
+    ICON: "/icons/bilibili.svg",
+  },
+  {
+    NAME: "QQ",
+    HREF: "https://qm.qq.com/q/ZYQZNCi1aw",
+    ICON: "/icons/qq.svg",
   },
 ];
