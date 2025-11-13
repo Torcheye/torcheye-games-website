@@ -8,13 +8,18 @@ import { SITE } from "@consts";
   <Container>
     <div class="flex flex-wrap justify-between gap-y-2">
       <Link href="/" underline={false}>
-        <div class="font-semibold">
-          {SITE.TITLE}&nbsp;🕯️
+        <div class="flex items-center gap-2 font-semibold">
+          <img
+            src="/favicon.png"
+            alt={`${SITE.TITLE} logo`}
+            class="h-6 w-6 rounded-sm object-cover"
+            width="24"
+            height="24"
+          />
+          {SITE.TITLE}
         </div>
       </Link>
       <nav class="flex items-center gap-1 text-sm">
-        <Link href="/works">works</Link>
-        <span>/</span>
         <Link href="/studio">studio</Link>
         <span>/</span>
         <Link href="/blog">blog</Link>

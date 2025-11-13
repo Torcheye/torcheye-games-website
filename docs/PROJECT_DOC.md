@@ -45,7 +45,7 @@
 - **Home** (`/`) - Chiaroscuro game landing page
 - **Studio** (`/studio`) - About page with team info
 - **Blog** (`/blog`) - Dev blog with tagging system
-- **Works** (`/works`) - Game portfolio (hidden from nav, future use)
+- ~~**Works** (`/works`) - Game portfolio~~ (temporarily disabled)
 
 ---
 

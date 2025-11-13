@@ -4,7 +4,7 @@ import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import Link from "@components/Link.astro";
 import { HOME, SITE, SOCIALS } from "@consts";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import { readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { extname } from "node:path";
@@ -14,12 +14,29 @@ const blog = (await getCollection("blog"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
 
-const projects: CollectionEntry<"projects">[] = (
-  await getCollection("projects")
-)
-  .filter((project) => !project.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
+const featureVideos = [
+  {
+    title: "Embrace Shadows",
+    description:
+      "Slip into murky spaces where silhouettes become pathways. Navigate by absence as much as light.",
+    video: "/images/features/LightObjectDemo.mp4",
+  },
+  {
+    title: "Manipulate Light",
+    description:
+      "Redirect beams, mirrors, and reflections to carve new routes, disable hazards, and reframe the world.",
+    video: "/images/features/VineDemo.mp4",
+  },
+  {
+    title: "Explore Dreams",
+    description:
+      "Unravel a surreal mystery told through quiet vignettes, painterly architecture, and tactile interactions.",
+    video: "/images/features/PlayerShadowDimension.mp4",
+  },
+];
+
+const trailerId = "d-wI4MjySb8";
+const trailerSrc = `https://www.youtube.com/embed/${trailerId}?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=${trailerId}`;
 
 const screenshotDir = fileURLToPath(
   new URL("../../public/images/screenshots", import.meta.url),
@@ -42,107 +59,167 @@ try {
 } catch (error) {
   screenshots = [];
 }
-
-const features = [
-  {
-    title: "Embrace Shadows",
-    description:
-      "Slip into murky spaces where silhouettes harden into platforms and the unknown can be shaped like clay.",
-  },
-  {
-    title: "Manipulate Light",
-    description:
-      "Bend spotlights, beams, and reflections to carve pathways, disarm threats, and reveal hidden rooms.",
-  },
-  {
-    title: "Explore Dreams",
-    description:
-      "Uncover a surreal mystery told through atmospheric vignettes and environmental storytelling.",
-  },
-];
 ---
 
 <Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
     <div class="space-y-16" data-pagefind-ignore>
-      <section class="animate grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-        <div class="space-y-6">
-          <p class="text-sm uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-            Torcheye Games presents
-          </p>
-          <div class="space-y-4">
-            <h1 class="text-4xl font-semibold text-black dark:text-white md:text-5xl">
-              Chiaroscuro
-            </h1>
-            <p class="text-lg text-black/70 dark:text-white/70">
-              A surreal puzzle-platformer where light and shadow are more than visual effects —
-              they are the rules of reality.
-            </p>
-          </div>
-          <div class="flex flex-wrap gap-3">
-            <a
-              href="https://store.steampowered.com/app/2831270"
-              class="rounded-sm border border-black/15 bg-black px-4 py-2 text-sm font-semibold text-white transition hover:opacity-80 focus-visible:opacity-80 dark:border-white/20"
-            >
-              Wishlist on Steam
-            </a>
-            <a
-              href="/works"
-              class="rounded-sm border border-black/15 px-4 py-2 text-sm font-semibold transition hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
-            >
-              Explore the works
-            </a>
-          </div>
-          <p class="text-sm uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
-            Coming soon – add to your wishlist to follow development.
-          </p>
-        </div>
-        <div class="animate rounded-2xl border border-black/15 bg-neutral-900/70 p-3 shadow-2xl shadow-black/40 dark:border-white/10">
-          <div class="aspect-video overflow-hidden rounded-xl">
-            <iframe
-              src="https://www.youtube.com/embed/d-wI4MjySb8?rel=0&modestbranding=1"
-              title="Chiaroscuro trailer"
-              loading="lazy"
-              class="size-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
+      <section class="hero-section animate">
+        <p class="hero-kicker">Torcheye Games presents</p>
+        <h1 class="hero-title">Chiaroscuro</h1>
+        <p class="hero-subtitle">
+          A surreal puzzle-platformer where light and shadow are the systems that govern reality.
+        </p>
+        <a href="https://store.steampowered.com/app/2831270" class="hero-cta">
+          <img src="/icons/icon_steam.svg" alt="" aria-hidden="true" />
+          Wishlist on Steam
+        </a>
+        <p class="hero-note">Coming soon — follow the journey to launch.</p>
+      </section>
+
+      <section class="trailer-section animate">
+        <div class="trailer-frame">
+          <iframe
+            src={trailerSrc}
+            title="Chiaroscuro trailer"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
         </div>
       </section>
 
       <section class="space-y-6">
         <div class="animate flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p class="text-sm uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">
-              Key ideas
-            </p>
-            <h2 class="text-2xl font-semibold text-black dark:text-white">Light as a design tool</h2>
-          </div>
+          <h2 class="text-3xl font-semibold text-black dark:text-white">Gameplay Features</h2>
         </div>
-        <div class="grid gap-4 md:grid-cols-3">
-          {features.map((feature) => (
-            <article class="animate rounded-xl border border-black/15 bg-white/70 p-4 text-left transition hover:-translate-y-1 hover:border-black/30 dark:border-white/20 dark:bg-white/5">
-              <h3 class="text-xl font-semibold text-black dark:text-white">{feature.title}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-black/70 dark:text-white/70">
-                {feature.description}
-              </p>
-            </article>
-          ))}
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            featureVideos.map((feature) => (
+              <article class="feature-card animate">
+                <div class="feature-media">
+                  <video src={feature.video} autoplay muted loop playsinline></video>
+                </div>
+                <div class="space-y-2">
+                  <h3 class="text-xl font-semibold text-white">
+                    {feature.title}
+                  </h3>
+                  <p class="text-sm leading-relaxed text-white/70">
+                    {feature.description}
+                  </p>
+                </div>
+              </article>
+            ))
+          }
         </div>
       </section>
 
+      {
+        screenshots.length > 0 && (
+          <section class="space-y-4">
+            <div class="space-y-4" data-slider="screenshots">
+              <div class="slider-frame">
+                {
+                  screenshots.map((shot, index) => (
+                    <img
+                      src={shot.src}
+                      alt={shot.alt}
+                      loading="lazy"
+                      data-slide
+                      class:list={{
+                        "slider-image": true,
+                        "is-active": index === 0,
+                      }}
+                    />
+                  ))
+                }
+                <button type="button" class="slider-control left" data-prev aria-label="Previous screenshot">
+                  &#10094;
+                </button>
+                <button type="button" class="slider-control right" data-next aria-label="Next screenshot">
+                  &#10095;
+                </button>
+              </div>
+              <div class="slider-thumbs">
+                {
+                  screenshots.map((shot, index) => (
+                    <button
+                      type="button"
+                      data-thumb={index}
+                      class:list={{
+                        thumb: true,
+                        "is-active": index === 0,
+                      }}
+                      aria-label={`View screenshot ${index + 1}`}
+                    >
+                      <img src={shot.src} alt={shot.alt} loading="lazy" />
+                    </button>
+                  ))
+                }
+              </div>
+              <div class="slider-dots">
+                {
+                  screenshots.map((_, index) => (
+                    <button
+                      type="button"
+                      data-dot={index}
+                      class:list={{
+                        dot: true,
+                        "is-active": index === 0,
+                      }}
+                      aria-label={`Jump to screenshot ${index + 1}`}
+                    />
+                  ))
+                }
+              </div>
+            </div>
+            <script is:inline>
+              (() => {
+                const slider = document.querySelector('[data-slider="screenshots"]');
+                if (!slider) return;
+                const slides = Array.from(slider.querySelectorAll('[data-slide]'));
+                const thumbs = Array.from(slider.querySelectorAll('[data-thumb]'));
+                const dots = Array.from(slider.querySelectorAll('[data-dot]'));
+                const prev = slider.querySelector('[data-prev]');
+                const next = slider.querySelector('[data-next]');
+                let index = 0;
+                const total = slides.length;
+                const setActive = (target) => {
+                  index = (target + total) % total;
+                  slides.forEach((slide, idx) => slide.classList.toggle('is-active', idx === index));
+                  thumbs.forEach((thumb, idx) => thumb.classList.toggle('is-active', idx === index));
+                  dots.forEach((dot, idx) => dot.classList.toggle('is-active', idx === index));
+                };
+                prev?.addEventListener('click', () => setActive(index - 1));
+                next?.addEventListener('click', () => setActive(index + 1));
+                thumbs.forEach((thumb) => {
+                  thumb.addEventListener('click', () => {
+                    const target = Number(thumb.getAttribute('data-thumb')) || 0;
+                    setActive(target);
+                  });
+                });
+                dots.forEach((dot) => {
+                  dot.addEventListener('click', () => {
+                    const target = Number(dot.getAttribute('data-dot')) || 0;
+                    setActive(target);
+                  });
+                });
+              })();
+            </script>
+          </section>
+        )
+      }
+
       <section class="space-y-6">
-        <div class="animate flex flex-wrap items-center justify-between gap-3">
-          <h2 class="text-2xl font-semibold text-black dark:text-white">Latest posts</h2>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-3xl font-semibold text-black dark:text-white">Latest posts</h2>
           <Link href="/blog">View all</Link>
         </div>
         {blog.length === 0 ? (
-          <div class="animate rounded-xl border border-dashed border-black/15 p-6 text-sm leading-relaxed text-black/70 dark:border-white/20 dark:text-white/70">
+          <div class="animate rounded-2xl border border-dashed border-black/15 p-6 text-sm leading-relaxed text-black/70 dark:border-white/20 dark:text-white/70">
             <p class="font-semibold text-black dark:text-white">Dev blog launching soon</p>
             <p>
-              Expect deep dives into game design, art direction, programming breakdowns, and studio updates once
-              entries begin rolling out.
+              Expect deep dives into game design, art direction, programming breakdowns, and studio updates once entries begin rolling out.
             </p>
           </div>
         ) : (
@@ -156,73 +233,11 @@ const features = [
         )}
       </section>
 
-      <section class="space-y-6">
-        <div class="animate flex flex-wrap items-center justify-between gap-3">
-          <h2 class="text-2xl font-semibold text-black dark:text-white">Recent works</h2>
-          <Link href="/works">Browse all</Link>
-        </div>
-        {projects.length === 0 ? (
-          <div class="animate rounded-xl border border-dashed border-black/15 p-6 text-sm leading-relaxed text-black/70 dark:border-white/20 dark:text-white/70">
-            <p class="font-semibold text-black dark:text-white">More games on the way</p>
-            <p>
-              We're prototyping additional experiences that explore contrast, tension, and atmosphere.
-            </p>
-          </div>
-        ) : (
-          <ul class="not-prose flex flex-col gap-4">
-            {projects.map((project) => (
-              <li>
-                <ArrowCard entry={project} />
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      {screenshots.length > 0 && (
-        <section class="space-y-6">
-          <div class="animate flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-2xl font-semibold text-black dark:text-white">Mood board</h2>
-            <p class="text-sm text-black/60 dark:text-white/60">
-              Captured straight from the current Chiaroscuro build.
-            </p>
-          </div>
-          <div class="animate grid gap-4 md:grid-cols-3">
-            {screenshots.map((shot) => (
-              <figure class="overflow-hidden rounded-xl border border-black/15 dark:border-white/10">
-                <img src={shot.src} alt={shot.alt} loading="lazy" class="h-full w-full object-cover" />
-              </figure>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section class="space-y-6">
-        <div class="animate rounded-2xl border border-black/15 bg-black px-6 py-8 text-white dark:border-white/10">
-          <h2 class="text-3xl font-semibold">Join the journey</h2>
-          <p class="mt-4 text-base text-white/80">
-            Chiaroscuro explores the blurred space between illumination and darkness. Help shape it by wishlisting,
-            sharing feedback, or simply following along as we document the process.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a
-              href="https://store.steampowered.com/app/2831270"
-              class="rounded-sm border border-white/40 bg-white px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90"
-            >
-              Wishlist on Steam
-            </a>
-            <a
-              href="https://discord.gg/RHggGYAQjp"
-              class="rounded-sm border border-white/40 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              Join the Discord
-            </a>
-          </div>
-        </div>
-      </section>
-
       <section class="space-y-4">
         <h2 class="animate text-2xl font-semibold text-black dark:text-white">Connect</h2>
+        <p class="max-w-2xl text-base text-black/70 dark:text-white/70">
+          Follow along for progress drops, calls for playtests, and community events.
+        </p>
         <ul class="animate flex flex-wrap gap-3 text-sm">
           {SOCIALS.map((social) => (
             <li>
@@ -237,3 +252,219 @@ const features = [
     </div>
   </Container>
 </Layout>
+
+<style>
+  .hero-section {
+    border-radius: 2rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: radial-gradient(circle at 20% 20%, #2f2f47, #0a0a12);
+    color: white;
+  }
+
+  .hero-kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 8vw, 5rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 1rem;
+  }
+
+  .hero-subtitle {
+    max-width: 48rem;
+    margin: 1.5rem auto 0;
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .hero-cta {
+    margin: 2rem auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: opacity 250ms ease;
+  }
+
+  .hero-cta img {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .hero-cta:hover,
+  .hero-cta:focus-visible {
+    opacity: 0.8;
+  }
+
+  .hero-note {
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .trailer-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    aspect-ratio: 16 / 9;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  }
+
+  .trailer-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1.25rem;
+    border-radius: 1.25rem;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(12px);
+  }
+
+  .feature-media {
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+
+  .feature-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slider-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 2rem;
+    overflow: hidden;
+    background: rgba(5, 5, 5, 0.9);
+  }
+
+  .slider-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 300ms ease, transform 500ms ease;
+  }
+
+  .slider-image.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .slider-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+
+  .slider-control.left {
+    left: 1rem;
+  }
+
+  .slider-control.right {
+    right: 1rem;
+  }
+
+  .slider-thumbs {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  .thumb {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    width: 120px;
+    height: 70px;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 200ms ease, border-color 200ms ease;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .thumb.is-active {
+    opacity: 1;
+    border-color: white;
+  }
+
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: transparent;
+  }
+
+  .dot.is-active {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      border-radius: 1.5rem;
+      padding: 3rem 1.5rem;
+    }
+
+    .feature-card {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .thumb {
+      width: 80px;
+      height: 50px;
+    }
+  }
+</style>
