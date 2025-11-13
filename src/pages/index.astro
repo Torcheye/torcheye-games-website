@@ -16,21 +16,18 @@ const blog = (await getCollection("blog"))
 
 const featureVideos = [
   {
-    title: "Embrace Shadows",
-    description:
-      "Slip into murky spaces where silhouettes become pathways. Navigate by absence as much as light.",
+    title: "Embrace Shadows for Exploration",
+    description:"",
     video: "/images/features/LightObjectDemo.mp4",
   },
   {
-    title: "Manipulate Light",
-    description:
-      "Redirect beams, mirrors, and reflections to carve new routes, disable hazards, and reframe the world.",
+    title: "Manipulate Light to Shape Reality",
+    description:"",
     video: "/images/features/VineDemo.mp4",
   },
   {
-    title: "Explore Dreams",
-    description:
-      "Unravel a surreal mystery told through quiet vignettes, painterly architecture, and tactile interactions.",
+    title: "Dive into Dreams...",
+    description:"",
     video: "/images/features/PlayerShadowDimension.mp4",
   },
 ];
@@ -64,17 +61,15 @@ try {
 <Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
   <Container>
     <div class="space-y-16" data-pagefind-ignore>
-      <section class="hero-section animate">
-        <p class="hero-kicker">Torcheye Games presents</p>
+      <section id="chiaroscuro" class="hero-section animate">
         <h1 class="hero-title">Chiaroscuro</h1>
         <p class="hero-subtitle">
-          A surreal puzzle-platformer where light and shadow are the systems that govern reality.
+          A first-person puzzle game about lights and shadows
         </p>
         <a href="https://store.steampowered.com/app/2831270" class="hero-cta">
           <img src="/icons/icon_steam.svg" alt="" aria-hidden="true" />
           Wishlist on Steam
         </a>
-        <p class="hero-note">Coming soon — follow the journey to launch.</p>
       </section>
 
       <section class="trailer-section animate">
@@ -96,15 +91,15 @@ try {
         <div class="grid gap-6 md:grid-cols-3">
           {
             featureVideos.map((feature) => (
-              <article class="feature-card animate">
+              <article class="animate space-y-4 rounded-2xl border border-black/15 bg-white/70 p-6 dark:border-white/10 dark:bg-white/5">
                 <div class="feature-media">
                   <video src={feature.video} autoplay muted loop playsinline></video>
                 </div>
                 <div class="space-y-2">
-                  <h3 class="text-xl font-semibold text-white">
+                  <h3 class="text-xl font-semibold text-black dark:text-white">
                     {feature.title}
                   </h3>
-                  <p class="text-sm leading-relaxed text-white/70">
+                  <p class="text-sm leading-relaxed text-black/70 dark:text-white/70">
                     {feature.description}
                   </p>
                 </div>
@@ -238,15 +233,24 @@ try {
         <p class="max-w-2xl text-base text-black/70 dark:text-white/70">
           Follow along for progress drops, calls for playtests, and community events.
         </p>
-        <ul class="animate flex flex-wrap gap-3 text-sm">
+        <ul class="animate flex flex-wrap gap-2">
           {SOCIALS.map((social) => (
             <li>
-              <Link href={social.HREF} external>{social.NAME}</Link>
+              <a
+                href={social.HREF}
+                class="group flex size-11 items-center justify-center rounded-md border border-black/15 text-black hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:text-white dark:hover:bg-white/5 dark:focus-visible:bg-white/5"
+                aria-label={social.NAME}
+                target={social.HREF.startsWith("mailto") ? undefined : "_blank"}
+                rel={social.HREF.startsWith("mailto") ? undefined : "noopener noreferrer"}
+              >
+                <span
+                  class="block h-5 w-5"
+                  style={`background-color: currentColor; mask: url(${social.ICON}) no-repeat center / contain; -webkit-mask: url(${social.ICON}) no-repeat center / contain;`}
+                  aria-hidden="true"
+                />
+              </a>
             </li>
           ))}
-          <li class="text-black/70 dark:text-white/70">
-            <Link href={`mailto:${SITE.EMAIL}`}>{SITE.EMAIL}</Link>
-          </li>
         </ul>
       </section>
     </div>
@@ -256,10 +260,11 @@ try {
 <style>
   .hero-section {
     border-radius: 2rem;
-    padding: 4rem 2rem;
+    padding: clamp(2.5rem, 6vw, 4rem);
     text-align: center;
     background: radial-gradient(circle at 20% 20%, #2f2f47, #0a0a12);
     color: white;
+    margin: 0 auto 3rem;
   }
 
   .hero-kicker {
@@ -270,11 +275,12 @@ try {
   }
 
   .hero-title {
-    font-size: clamp(3rem, 8vw, 5rem);
-    letter-spacing: 0.2em;
+    font-size: clamp(2.75rem, 10vw, 5.25rem);
+    letter-spacing: clamp(0.05em, 0.3vw, 0.1em);
     text-transform: uppercase;
     font-weight: 600;
     margin-top: 1rem;
+    word-break: break-word;
   }
 
   .hero-subtitle {
@@ -333,24 +339,13 @@ try {
     border: none;
   }
 
-  .feature-card {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 1.25rem;
-    border-radius: 1.25rem;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(12px);
-  }
-
   .feature-media {
     border-radius: 1rem;
     overflow: hidden;
     aspect-ratio: 4 / 3;
   }
 
-  .feature-card video {
+  .feature-media video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -456,10 +451,6 @@ try {
     .hero-section {
       border-radius: 1.5rem;
       padding: 3rem 1.5rem;
-    }
-
-    .feature-card {
-      background: rgba(0, 0, 0, 0.8);
     }
 
     .thumb {
