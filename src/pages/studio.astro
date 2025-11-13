@@ -1,290 +1,88 @@
 ---
-/**
- * Studio Page
- * About page featuring team and studio information
- */
-
-import Layout from '../layouts/Layout.astro';
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
 ---
 
-<Layout
-  title="Studio - Torcheye Games"
-  description="Meet the team behind Torcheye Games - an indie studio crafting atmospheric experiences."
->
-  <div class="studio-page">
-    <div class="container">
-      <!-- Hero Section -->
-      <section class="studio-hero">
-        <h1 class="page-title">About Torcheye Games</h1>
-        <ul class="mission-statement">
-          <li>Innovation at the foremost</li>
-          <li>Thought-provoking</li>
-          <li>Aesthetically groundbreaking</li>
+<Layout title="Studio" description="Meet the small team behind Torcheye Games.">
+  <Container>
+    <div class="space-y-12" data-pagefind-ignore>
+      <section class="animate space-y-4">
+        <p class="text-sm uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">Studio</p>
+        <h1 class="text-4xl font-semibold text-black dark:text-white">About Torcheye Games</h1>
+        <p class="max-w-2xl text-base text-black/70 dark:text-white/70">
+          Innovation at the foremost. Thought-provoking. Aesthetically groundbreaking. We build atmospheric interactive
+          experiences by obsessing over light, shadow, and the emotions that live between them.
+        </p>
+        <ul class="grid gap-3 text-base text-black/80 dark:text-white/70 md:grid-cols-3">
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">Innovation at the foremost</li>
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">Thought-provoking</li>
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">Aesthetically groundbreaking</li>
         </ul>
       </section>
 
-      <!-- Team Section -->
-      <section class="team-section">
-        <h2 class="section-title">The Team</h2>
-        <div class="team-grid">
-          <!-- Team Member 1 - King -->
-          <div class="team-card">
-            <div class="team-image">
-              <img src="/images/team/King.jpg" alt="King - Founder & Developer" />
-            </div>
-            <div class="team-info">
-              <h3 class="team-name">King Zhou</h3>
-              <p class="team-role">Founder & Developer</p>
-              <p class="team-bio">
-                Passionate, curious, and creative. Devoted to crafting innovative, beautiful, and accessible 
-                interactive experiences. When not coding, enjoys euro board games, culinary arts, and 
-                exploring nature.
+      <section class="space-y-6">
+        <h2 class="animate text-2xl font-semibold text-black dark:text-white">The Team</h2>
+        <div class="grid gap-6 md:grid-cols-2">
+          <article class="animate space-y-3 rounded-2xl border border-black/15 bg-white/70 p-6 dark:border-white/10 dark:bg-white/5">
+            <figure class="overflow-hidden rounded-xl">
+              <img src="/images/team/King.jpg" alt="Portrait of King Zhou" class="h-64 w-full object-cover" loading="lazy" />
+            </figure>
+            <div class="space-y-2">
+              <h3 class="text-2xl font-semibold text-black dark:text-white">King Zhou</h3>
+              <p class="text-sm uppercase tracking-[0.3em] text-black/60 dark:text-white/50">Founder & Developer</p>
+              <p class="text-base leading-relaxed text-black/70 dark:text-white/70">
+                Passionate, curious, and creative. Devoted to crafting innovative, beautiful, and accessible interactive
+                experiences. When not coding, King can be found exploring euro board games, culinary experiments, and nature.
               </p>
             </div>
-          </div>
-
-          <!-- Team Member 2 - Timmie -->
-          <div class="team-card">
-            <div class="team-image">
-              <img src="/images/team/Timmie.jpg" alt="Timmie - Chief Morale Officer" />
-            </div>
-            <div class="team-info">
-              <h3 class="team-name">Timmie</h3>
-              <p class="team-role">Chief Morale Officer</p>
-              <p class="team-bio">
-                Professional keyboard warmer and bug finder (literally). Specializes in quality assurance
-                by walking across the keyboard at critical moments. Expert in nap optimization and
-                providing emotional support during crunch time.
+          </article>
+          <article class="animate space-y-3 rounded-2xl border border-black/15 bg-white/70 p-6 dark:border-white/10 dark:bg-white/5">
+            <figure class="overflow-hidden rounded-xl">
+              <img src="/images/team/Timmie.jpg" alt="Portrait of Timmie" class="h-64 w-full object-cover" loading="lazy" />
+            </figure>
+            <div class="space-y-2">
+              <h3 class="text-2xl font-semibold text-black dark:text-white">Timmie</h3>
+              <p class="text-sm uppercase tracking-[0.3em] text-black/60 dark:text-white/50">Chief Morale Officer</p>
+              <p class="text-base leading-relaxed text-black/70 dark:text-white/70">
+                Professional keyboard warmer and bug finder. Specializes in QA by strolling across the keyboard at critical
+                moments. Expert in nap optimization and providing emotional support during crunch time.
               </p>
             </div>
-          </div>
+          </article>
         </div>
       </section>
 
-      <!-- Contact Section -->
-      <section class="contact-section">
-        <h2>Get in Touch</h2>
-        <p>We'd love to hear from you.</p>
-        <div class="contact-links">
-          <a href="mailto:hello@torcheyegames.com" class="contact-btn">
-            Email Us
+      <section class="space-y-4">
+        <h2 class="animate text-2xl font-semibold text-black dark:text-white">Get in touch</h2>
+        <p class="animate max-w-2xl text-base text-black/70 dark:text-white/70">
+          We'd love to hear from you. For partnership ideas, feedback, or to simply say hi, reach out through the
+          channels below.
+        </p>
+        <div class="animate flex flex-wrap gap-3">
+          <a
+            href="mailto:hello@torcheyegames.com"
+            class="rounded-sm border border-black/15 px-4 py-2 text-sm font-semibold transition hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white"
+          >
+            Email us
           </a>
-          <a href="https://twitter.com/torcheyegames" target="_blank" rel="noopener" class="contact-btn">
+          <a
+            href="https://twitter.com/torcheyegames"
+            class="rounded-sm border border-black/15 px-4 py-2 text-sm font-semibold transition hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Twitter
           </a>
-          <a href="https://discord.gg/RHggGYAQjp" target="_blank" rel="noopener" class="contact-btn">
+          <a
+            href="https://discord.gg/RHggGYAQjp"
+            class="rounded-sm border border-black/15 px-4 py-2 text-sm font-semibold transition hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Discord
           </a>
         </div>
       </section>
     </div>
-  </div>
+  </Container>
 </Layout>
-
-<style>
-  .studio-page {
-    padding: var(--space-16) 0;
-    min-height: 60vh;
-  }
-
-  /* Hero Section */
-  .studio-hero {
-    text-align: center;
-    margin-bottom: var(--space-20);
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .page-title {
-    font-size: clamp(var(--text-4xl), 6vw, var(--text-6xl));
-    margin-bottom: var(--space-4);
-  }
-
-  .studio-tagline {
-    font-size: var(--text-xl);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-8);
-  }
-
-  .mission-statement {
-    margin-top: var(--space-8);
-    padding: var(--space-6) var(--space-8);
-    border-left: var(--border-heavy) solid var(--color-border-light);
-    list-style: none;
-  }
-
-  .mission-statement li {
-    font-size: var(--text-xl);
-    line-height: 1.6;
-    color: var(--color-text-primary);
-    margin: var(--space-3) 0;
-  }
-
-  .mission-statement li:first-child {
-    margin-top: 0;
-  }
-
-  .mission-statement li:last-child {
-    margin-bottom: 0;
-  }
-
-  .mission-statement p {
-    font-size: var(--text-lg);
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    margin: 0;
-  }
-
-  /* Team Section */
-  .team-section {
-    margin-bottom: var(--space-20);
-  }
-
-  .section-title {
-    font-size: var(--text-4xl);
-    text-align: center;
-    margin-bottom: var(--space-12);
-  }
-
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-8);
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .team-card {
-    background: var(--color-bg-secondary);
-    border: var(--border-thick) solid var(--color-border);
-    padding: var(--space-8);
-    transition: all var(--transition-base);
-  }
-
-  .team-card:hover {
-    border-color: var(--color-border-light);
-    transform: translateY(-4px);
-  }
-
-  .team-image {
-    margin-bottom: var(--space-6);
-    aspect-ratio: 1;
-    overflow: hidden;
-    border: var(--border-medium) solid var(--color-border);
-    background: var(--color-bg-tertiary);
-  }
-
-  .team-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .team-info {
-    text-align: left;
-  }
-
-  .team-name {
-    font-size: var(--text-2xl);
-    margin-bottom: var(--space-2);
-  }
-
-  .team-role {
-    font-size: var(--text-base);
-    color: var(--color-text-tertiary);
-    margin-bottom: var(--space-4);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 500;
-  }
-
-  .team-bio {
-    font-size: var(--text-base);
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-  }
-
-  /* Contact Section */
-  .contact-section {
-    text-align: center;
-    padding: var(--space-12);
-    background: var(--color-bg-secondary);
-    border: var(--border-medium) solid var(--color-border);
-  }
-
-  .contact-section h2 {
-    font-size: var(--text-3xl);
-    margin-bottom: var(--space-3);
-  }
-
-  .contact-section p {
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
-  }
-
-  .contact-links {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .contact-btn {
-    padding: var(--space-3) var(--space-6);
-    border: var(--border-medium) solid var(--color-border);
-    background: var(--color-bg-primary);
-    font-size: var(--text-base);
-    font-weight: 500;
-    transition: all var(--transition-base);
-  }
-
-  .contact-btn:hover {
-    border-color: var(--color-border-light);
-    background: var(--color-bg-tertiary);
-    transform: translateY(-2px);
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .studio-page {
-      padding: var(--space-8) 0;
-    }
-
-    .studio-hero {
-      margin-bottom: var(--space-12);
-    }
-
-    .mission-statement {
-      padding: var(--space-4) var(--space-6);
-    }
-
-    .mission-statement li {
-      font-size: var(--text-lg);
-    }
-
-    .team-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
-    }
-
-    .team-card {
-      padding: var(--space-6);
-    }
-
-    .contact-section {
-      padding: var(--space-8) var(--space-4);
-    }
-
-    .contact-links {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .contact-btn {
-      width: 100%;
-    }
-  }
-</style>

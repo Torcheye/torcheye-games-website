@@ -1,114 +1,37 @@
 ---
-/**
- * Main Layout Component
- * Base layout with global styles, header, and footer
- */
+import Head from "@components/Head.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Pagefind from "@components/PageFind.astro";
+import { SITE } from "@consts";
 
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/global.css';
+type Props = {
+  title: string;
+  description: string;
+};
 
-export interface Props {
-	title?: string;
-	description?: string;
-	showHeader?: boolean;
-	showFooter?: boolean;
-	image?: string;
-	type?: 'website' | 'article';
-}
-
-const {
-	title = 'Torcheye Games - Indie Game Studio',
-	description = 'Indie game studio crafting atmospheric, narrative-driven experiences that explore the boundaries between light and shadow.',
-	showHeader = true,
-	showFooter = true,
-	image = '/cover-image.png',
-	type = 'website'
-} = Astro.props;
-
-// Get current path for active navigation state
-const currentPath = Astro.url.pathname;
-
-// Build full URLs for meta tags
-const siteUrl = 'https://torcheyegames.com';
-const canonicalURL = new URL(currentPath, siteUrl).href;
-const imageURL = new URL(image, siteUrl).href;
+const { title, description } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/png" href="/favicon.png" />
-		<meta name="generator" content={Astro.generator} />
-
-		<!-- Primary Meta Tags -->
-		<title>{title}</title>
-		<meta name="title" content={title} />
-		<meta name="description" content={description} />
-		<link rel="canonical" href={canonicalURL} />
-
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content={type} />
-		<meta property="og:url" content={canonicalURL} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content={imageURL} />
-		<meta property="og:image:alt" content={title} />
-		<meta property="og:site_name" content="Torcheye Games" />
-		<meta property="og:locale" content="en_US" />
-
-		<!-- Twitter -->
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:site" content="@torcheyegames" />
-		<meta name="twitter:creator" content="@torcheyegames" />
-		<meta name="twitter:url" content={canonicalURL} />
-		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={description} />
-		<meta name="twitter:image" content={imageURL} />
-		<meta name="twitter:image:alt" content={title} />
-
-		<!-- JSON-LD Structured Data -->
-		<script type="application/ld+json" set:html={JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "Organization",
-			"name": "Torcheye Games",
-			"url": siteUrl,
-			"logo": new URL('/favicon.png', siteUrl).href,
-			"sameAs": [
-				"https://twitter.com/torcheyegames",
-				"https://discord.gg/RHggGYAQjp"
-			],
-			"description": "Indie game studio crafting atmospheric, narrative-driven experiences"
-		})} />
-
-		<!-- Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
-	</head>
-	<body>
-		<div class="site-wrapper">
-			{showHeader && <Header currentPath={currentPath} />}
-
-			<main id="main-content">
-				<slot />
-			</main>
-
-			{showFooter && <Footer />}
-		</div>
-	</body>
+  <head>
+    <Head title={`${title} | ${SITE.TITLE}`} description={description} />
+  </head>
+  <body>
+    <noscript>
+      <style>
+        .animate{
+          opacity:1;
+          translate: var(--tw-translate-x) calc(var(--spacing) * 0);
+        }
+      </style>
+    </noscript>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <Pagefind />
+  </body>
 </html>
-
-<style>
-	.site-wrapper {
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-	}
-
-	main {
-		flex: 1;
-	}
-</style>
