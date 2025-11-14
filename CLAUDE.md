@@ -1,2 +1,0 @@
-- always refer to PROJECT_DOC.md before making edits and changes. And after changes update projcet doc for content and progress tracking.
-- do not create extra files in docs folder unless absolutely necessary or instructed to do so. most of the time making updates to @docs\PROJECT_DOC.md is enough
