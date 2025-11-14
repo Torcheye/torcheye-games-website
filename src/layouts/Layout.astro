@@ -33,5 +33,86 @@ const { title, description } = Astro.props;
     </main>
     <Footer />
     <Pagefind />
+    <script is:inline>
+      const initImageLightbox = () => {
+        const figures = document.querySelectorAll("article figure[data-lightbox]");
+        if (!figures.length) {
+          return;
+        }
+
+        const overlay = document.createElement("div");
+        overlay.className = "image-lightbox";
+        overlay.setAttribute("role", "dialog");
+        overlay.setAttribute("aria-modal", "true");
+        overlay.setAttribute("aria-label", "Expanded image preview");
+
+        const overlayFigure = document.createElement("figure");
+        overlayFigure.className = "image-lightbox__figure";
+
+        const overlayImage = document.createElement("img");
+        overlayImage.alt = "";
+
+        const overlayCaption = document.createElement("figcaption");
+
+        overlayFigure.append(overlayImage, overlayCaption);
+        overlay.append(overlayFigure);
+        document.body.appendChild(overlay);
+
+        let previousScrollY = 0;
+
+        const closeLightbox = () => {
+          overlay.classList.remove("is-open");
+          overlayImage.removeAttribute("src");
+          document.body.classList.remove("lightbox-open");
+          document.body.style.removeProperty("top");
+          window.scrollTo({
+            top: previousScrollY,
+            behavior: "auto",
+          });
+        };
+
+        overlay.addEventListener("click", (event) => {
+          if (event.target === overlay) {
+            closeLightbox();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && overlay.classList.contains("is-open")) {
+            closeLightbox();
+          }
+        });
+
+        figures.forEach((figure) => {
+          const triggerImage = figure.querySelector("img");
+          if (!triggerImage) {
+            return;
+          }
+
+          triggerImage.addEventListener("click", () => {
+            previousScrollY =
+              window.scrollY ||
+              document.documentElement.scrollTop ||
+              0;
+            document.body.style.top = `-${previousScrollY}px`;
+            overlayImage.src =
+              triggerImage.dataset.lightboxSrc ||
+              triggerImage.currentSrc ||
+              triggerImage.src;
+            overlayImage.alt = triggerImage.alt || "";
+            const caption = figure.querySelector("figcaption");
+            overlayCaption.textContent = caption?.textContent?.trim() || "";
+            overlay.classList.add("is-open");
+            document.body.classList.add("lightbox-open");
+          });
+        });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initImageLightbox, { once: true });
+      } else {
+        initImageLightbox();
+      }
+    </script>
   </body>
 </html>

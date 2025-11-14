@@ -85,6 +85,95 @@
   }
 }
 
+@layer utilities {
+  article figure.image {
+    @apply my-12 flex flex-col items-center gap-4 text-center;
+  }
+
+  article figure.image :is(img, video) {
+    @apply cursor-zoom-in rounded-md shadow-sm transition duration-300 ease-in-out;
+    max-width: min(100%, 1200px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  article figure.image video {
+    max-height: 480px;
+    cursor: default;
+  }
+
+  article figure.image.image-h-short :is(img, video) {
+    max-height: 14rem;
+  }
+
+  article figure.image.image-h-medium :is(img, video) {
+    max-height: 22rem;
+  }
+
+  article figure.image.image-h-tall :is(img, video) {
+    max-height: 32rem;
+  }
+
+  article figure.image.image-h-full :is(img, video) {
+    max-height: none;
+  }
+
+  article figure.image figcaption {
+    @apply text-sm text-black/60 dark:text-white/60;
+  }
+
+  body.lightbox-open {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+  }
+
+  .image-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.85);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .image-lightbox.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .image-lightbox__figure {
+    max-width: min(1100px, 100vw);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .image-lightbox__figure img {
+    max-height: 80vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 0.5rem;
+  }
+
+  .image-lightbox__figure figcaption {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.95rem;
+  }
+}
+
 .animate {
   @apply -translate-y-3 opacity-0;
   @apply transition-all duration-300 ease-out;
