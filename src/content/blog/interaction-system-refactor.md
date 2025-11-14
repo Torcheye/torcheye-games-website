@@ -4,9 +4,9 @@ date: 2025-11-12
 description: "We rebuilt Chiaroscuro's interaction system around event-driven signals, modular behaviors, and trigger-based detection for faster iteration."
 excerpt: "We rebuilt Chiaroscuro's interaction system around event-driven signals, modular behaviors, and trigger-based detection for faster iteration."
 tags:
-  - devlog
+  - deisgn pattern
   - unity
-  - systems
+  - refctor
   - interaction
 metaDescription: "Replacing a heavyweight state machine with signals and behaviors simplified Chiaroscuro's interaction system and made iteration faster."
 metaKeywords:
@@ -22,8 +22,16 @@ metaKeywords:
 
 The past few days I tore out our old interaction system and rebuilt it around an event-driven, behavior-based architecture. The original version leaned on a textbook State Pattern with separate state classes orchestrating input and transitions. It "worked," but it fought Unity's strengths, added indirection, and made changes feel heavier than they needed to be.
 
-[image: Before/after architecture sketch — state objects and arrows vs. simple signal flow]
-Caption: Replacing state objects and transitions with direct events and behavior ownership reduced complexity and increased clarity.
+<figure class="image image-h-medium" data-lightbox>
+  <img
+    src="/devlog/interactive-system-refactor/diagram_0.png"
+    alt="Before/after architecture sketch, with state objects and transitions compared against signal flow"
+    loading="lazy"
+  />
+  <figcaption>
+    Replacing state objects and transitions with direct events and clearer behavior ownership reduced complexity and increased clarity.
+  </figcaption>
+</figure>
 
 ## Why change a working system?
 
@@ -33,9 +41,6 @@ Caption: Replacing state objects and transitions with direct events and behavior
 
 The new model in one sentence: Input is event-driven, detection is trigger-based, “what happens” lives in pure C# behavior classes, and data flows through a read-only interaction context. That’s it.
 
-[image: Sequence diagram of input event -> manager -> behavior -> interactable callbacks]
-Caption: Events route intent, behaviors own execution, interactables expose UnityEvents for feedback.
-
 ## What changed, concretely
 
 - Event-driven input: A thin input wrapper raises events. The manager listens and either starts a behavior (when focused) or forwards the signal to the currently active behavior.
@@ -44,7 +49,7 @@ Caption: Events route intent, behaviors own execution, interactables expose Unit
 - Trigger-based detection: Instead of raycasts/hybrid modes, we use small trigger components on interactables. The player detector tracks nearby interactables and chooses the best candidate (e.g., closest and available).
 - UnityEvent feedback: Interactables expose OnFocused/OnUnfocused as UnityEvents so designers can hook visuals/audio in the Inspector — no hardcoded feedback mapping.
 
-## Before vs. after (conceptual)
+### Before vs. after (conceptual)
 
 ```csharp
 // Before: state objects own transitions and input branching
@@ -84,9 +89,16 @@ public sealed class InstantPressBehavior : IInteractionBehavior
     { /* Do the thing: e.g., open door, toggle lever, call event...*/ }
 }
 ```
-
-[image: Unity Inspector — interactable with Behavior assignment and focus UnityEvents]
-Caption: Designers wire feedback and behavior per-instance in the Inspector. No code changes needed to add sounds, outlines, or crosshair tweaks.
+<figure class="image image-h-medium" data-lightbox>
+  <img
+    src="/devlog/interactive-system-refactor/image_0.png"
+    alt="Unity Inspector — interactable with Behavior assignment and focus UnityEvents"
+    loading="lazy"
+  />
+  <figcaption>
+    Designers wire feedback and behavior per-instance in the Inspector. No code changes needed to add sounds, outlines, or crosshair tweaks.
+  </figcaption>
+</figure>
 
 ## Why triggers over raycasts?
 
@@ -118,8 +130,15 @@ Execute(interactable, context) {
 
 The manager emits state changes, which a small UI controller listens to. That controller swaps crosshair styles (idle, focus, grab/hold) and can fade a subtle border when in “control mode.” Because these are just event listeners, you can iterate on UI feedback without touching interaction logic.
 
-[gif: Crosshair swapping between idle dot, focus hand, and grab state]
-Caption: Crosshair changes emerge from state change events — no UI logic hidden inside interactions.
+
+<figure class="image image-h-tall" data-lightbox>
+  <img
+    src="/devlog/interactive-system-refactor/gif_0.gif"
+    alt="Crosshair swapping between idle dot, focus hand, and grab state"
+    loading="lazy"
+  />
+  <figcaption>Crosshair changes emerge from state change events — no UI logic hidden inside interactions</figcaption>
+</figure>
 
 ## What improved in day-to-day work
 
@@ -128,15 +147,19 @@ Caption: Crosshair changes emerge from state change events — no UI logic hidde
 - Testing: Behaviors are pure C#; you can exercise them without standing up entire scenes.
 - Stability: Fewer moving parts and clearer ownership reduced “who owns this input now?” bugs.
 
-## Trade-offs and lessons learned
+### Trade-offs
 
-- We gave up theoretical elegance (formal state classes) for practical clarity. The enum + events are enough.
-- Trigger-only is opinionated; specialized interactions (e.g., long-range raycast) will add a second path later. For now, simple wins.
-- Treating context as read-only removes a class of timing bugs in behaviors. It’s mundane, and it works.
-- UnityEvents on interactables empower designers but require discipline to avoid scattered side effects. Naming, grouping, and prefabs help.
+- Gave up theoretical elegance (formal state classes) for practical clarity. The enum + events are enough.
+- Trigger-only is opinionated; specialized interactions (e.g., long-range raycast) will add a second path later. For now, it's good enough.
 
-[image: Simple dependency diagram — Input -> Manager -> Behavior -> Interactable, UI listening on the side]
-Caption: One-way data flow clarifies who depends on whom and why.
+<figure class="image image-h-short" data-lightbox>
+  <img
+    src="/devlog/interactive-system-refactor/diagram_1.png"
+    alt="Simple dependency diagram showing Input to Manager to Behavior to Interactable with UI listeners"
+    loading="lazy"
+  />
+  <figcaption>One-way data flow clarifies who depends on whom and why.</figcaption>
+</figure>
 
 ## Closing thoughts
 
