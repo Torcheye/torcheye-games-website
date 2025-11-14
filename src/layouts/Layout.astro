@@ -34,13 +34,33 @@ const { title, description } = Astro.props;
     <Footer />
     <Pagefind />
     <script is:inline>
-      const initImageLightbox = () => {
-        const figures = document.querySelectorAll("article figure[data-lightbox]");
-        if (!figures.length) {
+      let overlay;
+      let overlayImage;
+      let overlayCaption;
+      let overlayInitialized = false;
+      let previousScrollY = 0;
+
+      const closeLightbox = () => {
+        if (!overlay || !overlayImage) {
           return;
         }
 
-        const overlay = document.createElement("div");
+        overlay.classList.remove("is-open");
+        overlayImage.removeAttribute("src");
+        document.body.classList.remove("lightbox-open");
+        document.body.style.removeProperty("top");
+        window.scrollTo({
+          top: previousScrollY,
+          behavior: "auto",
+        });
+      };
+
+      const ensureOverlay = () => {
+        if (overlayInitialized) {
+          return;
+        }
+
+        overlay = document.createElement("div");
         overlay.className = "image-lightbox";
         overlay.setAttribute("role", "dialog");
         overlay.setAttribute("aria-modal", "true");
@@ -49,27 +69,14 @@ const { title, description } = Astro.props;
         const overlayFigure = document.createElement("figure");
         overlayFigure.className = "image-lightbox__figure";
 
-        const overlayImage = document.createElement("img");
+        overlayImage = document.createElement("img");
         overlayImage.alt = "";
 
-        const overlayCaption = document.createElement("figcaption");
+        overlayCaption = document.createElement("figcaption");
 
         overlayFigure.append(overlayImage, overlayCaption);
         overlay.append(overlayFigure);
         document.body.appendChild(overlay);
-
-        let previousScrollY = 0;
-
-        const closeLightbox = () => {
-          overlay.classList.remove("is-open");
-          overlayImage.removeAttribute("src");
-          document.body.classList.remove("lightbox-open");
-          document.body.style.removeProperty("top");
-          window.scrollTo({
-            top: previousScrollY,
-            behavior: "auto",
-          });
-        };
 
         overlay.addEventListener("click", (event) => {
           if (event.target === overlay) {
@@ -83,12 +90,24 @@ const { title, description } = Astro.props;
           }
         });
 
+        overlayInitialized = true;
+      };
+
+      const initImageLightbox = () => {
+        const figures = document.querySelectorAll("article figure[data-lightbox]");
+        if (!figures.length) {
+          return;
+        }
+
+        ensureOverlay();
+
         figures.forEach((figure) => {
           const triggerImage = figure.querySelector("img");
-          if (!triggerImage) {
+          if (!triggerImage || triggerImage.dataset.lightboxBound === "true") {
             return;
           }
 
+          triggerImage.dataset.lightboxBound = "true";
           triggerImage.addEventListener("click", () => {
             previousScrollY =
               window.scrollY ||
@@ -108,11 +127,16 @@ const { title, description } = Astro.props;
         });
       };
 
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initImageLightbox, { once: true });
-      } else {
-        initImageLightbox();
-      }
+      const setupLightbox = () => {
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initImageLightbox, { once: true });
+        } else {
+          initImageLightbox();
+        }
+      };
+
+      setupLightbox();
+      document.addEventListener("astro:page-load", initImageLightbox);
     </script>
   </body>
 </html>
