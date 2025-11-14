@@ -8,7 +8,7 @@ type Props = {
 
 const { variant = "default", class: className, ...rest } = Astro.props as Props;
 
-const sharedWidth = "mx-auto w-full max-w-[min(75vw,1200px)]";
+const sharedWidth = "mx-auto w-full max-w-[min(95vw,1200px)]";
 
 const variantClasses: Record<Required<Props>["variant"], string> = {
   default: sharedWidth,
