@@ -17,7 +17,10 @@
       "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" log --oneline -10)",
       "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" show HEAD:src/content/blog/welcome-to-torcheye-games.md)",
       "Bash(npm run preview:*)",
-      "Bash(git remote:*)"
+      "Bash(git remote:*)",
+      "WebFetch(domain:docs.astro.build)",
+      "Bash(npx astro:*)",
+      "Bash(git -C \"d:\\TORCHEYE GAMES\\Torcheye Games Website\" diff)"
     ],
     "deny": [],
     "ask": []
