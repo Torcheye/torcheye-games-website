@@ -1,0 +1,76 @@
+---
+import { languages, getAlternateLocaleUrl, type SupportedLanguage } from "@i18n/utils";
+
+interface Props {
+  locale: SupportedLanguage;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const alternateLocale: SupportedLanguage = locale === "en" ? "zh" : "en";
+const alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
+---
+
+<div class="language-switcher">
+  <a
+    href={alternateUrl}
+    class="language-link"
+    aria-label={`Switch to ${languages[alternateLocale]}`}
+    title={`Switch to ${languages[alternateLocale]}`}
+  >
+    <span class="current-lang" aria-hidden="true">{locale.toUpperCase()}</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+      <path d="M2 12h20"></path>
+    </svg>
+  </a>
+</div>
+
+<style>
+  .language-switcher {
+    display: flex;
+    align-items: center;
+  }
+
+  .language-link {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius);
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .language-link:hover {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+  }
+
+  .current-lang {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .language-link svg {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0.7;
+  }
+</style>
