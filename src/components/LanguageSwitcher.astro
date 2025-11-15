@@ -15,10 +15,11 @@ const alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
   <a
     href={alternateUrl}
     class="language-link"
+    data-language-link
     aria-label={`Switch to ${languages[alternateLocale]}`}
     title={`Switch to ${languages[alternateLocale]}`}
   >
-    <span class="current-lang" aria-hidden="true">{locale.toUpperCase()}</span>
+    <span class="current-lang" data-current-lang aria-hidden="true">{locale.toUpperCase()}</span>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -37,6 +38,34 @@ const alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
     </svg>
   </a>
 </div>
+
+<script>
+  import { getLocaleFromUrl, getAlternateLocaleUrl, languages, type SupportedLanguage } from "@i18n/utils";
+
+  function updateLanguageSwitcher() {
+    const link = document.querySelector<HTMLAnchorElement>('[data-language-link]');
+    const currentLangSpan = document.querySelector<HTMLSpanElement>('[data-current-lang]');
+
+    if (!link || !currentLangSpan) return;
+
+    const currentPath = window.location.pathname;
+    const currentLocale = getLocaleFromUrl(currentPath);
+    const alternateLocale: SupportedLanguage = currentLocale === "en" ? "zh" : "en";
+    const alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
+
+    // Update the link and display
+    link.href = alternateUrl;
+    link.setAttribute('aria-label', `Switch to ${languages[alternateLocale]}`);
+    link.setAttribute('title', `Switch to ${languages[alternateLocale]}`);
+    currentLangSpan.textContent = currentLocale.toUpperCase();
+  }
+
+  // Update on initial load
+  updateLanguageSwitcher();
+
+  // Update after Astro view transitions
+  document.addEventListener('astro:page-load', updateLanguageSwitcher);
+</script>
 
 <style>
   .language-switcher {
