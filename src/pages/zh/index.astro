@@ -1,0 +1,468 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import Link from "@components/Link.astro";
+import { SITE, SOCIALS } from "@consts";
+import { getCollection } from "astro:content";
+import { readdir } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { extname } from "node:path";
+import { getLocaleFromUrl, useTranslations, addLocalePrefix } from "@i18n/utils";
+import type { BlogEntry } from "@/types/blog";
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+
+const blogPosts = (await getCollection("blog")) as BlogEntry[];
+
+const blog = blogPosts
+  .filter((post) => !post.data.draft && post.data.locale === locale)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+
+const featureVideos = [
+  {
+    title: t.home.features.feature1.title,
+    description: t.home.features.feature1.description,
+    video: "/images/features/LightObjectDemo.mp4",
+  },
+  {
+    title: t.home.features.feature2.title,
+    description: t.home.features.feature2.description,
+    video: "/images/features/VineDemo.mp4",
+  },
+  {
+    title: t.home.features.feature3.title,
+    description: t.home.features.feature3.description,
+    video: "/images/features/PlayerShadowDimension.mp4",
+  },
+];
+
+const trailerId = "d-wI4MjySb8";
+const trailerSrc = `https://www.youtube.com/embed/${trailerId}?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=${trailerId}`;
+
+const screenshotDir = fileURLToPath(
+  new URL("../../public/images/screenshots", import.meta.url),
+);
+let screenshots: { src: string; alt: string }[] = [];
+try {
+  const files = await readdir(screenshotDir);
+  const supported = [".png", ".jpg", ".jpeg", ".gif", ".webp"];
+  screenshots = files
+    .filter((file) => supported.includes(extname(file).toLowerCase()))
+    .sort((a, b) => {
+      const numA = parseInt(a.match(/\d+/)?.[0] ?? "0", 10);
+      const numB = parseInt(b.match(/\d+/)?.[0] ?? "0", 10);
+      return numA - numB;
+    })
+    .map((file, index) => ({
+      src: `/images/screenshots/${file}`,
+      alt: t.home.screenshotAlt(index + 1),
+    }));
+} catch (error) {
+  screenshots = [];
+}
+---
+
+<Layout title={t.meta.homeTitle} description={t.meta.homeDescription}>
+  <Container>
+    <div class="space-y-16" data-pagefind-ignore>
+      <section id="chiaroscuro" class="hero-section animate">
+        <h1 class="hero-title">{t.home.hero.title}</h1>
+        <p class="hero-subtitle">
+          {t.home.hero.subtitle}
+        </p>
+        <a href="https://store.steampowered.com/app/2831270" class="hero-cta">
+          <img src="/icons/icon_steam.svg" alt="" aria-hidden="true" />
+          {t.home.hero.cta}
+        </a>
+      </section>
+
+      <section class="trailer-section animate">
+        <div class="trailer-frame">
+          <iframe
+            src={trailerSrc}
+            title="Chiaroscuro trailer"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="space-y-6">
+        <div class="animate flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-3xl font-semibold text-black dark:text-white">{t.home.features.heading}</h2>
+        </div>
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            featureVideos.map((feature) => (
+              <article class="animate space-y-4 rounded-2xl border border-black/15 bg-white/70 p-6 dark:border-white/10 dark:bg-white/5">
+                <div class="feature-media">
+                  <video src={feature.video} autoplay muted loop playsinline></video>
+                </div>
+                <div class="space-y-2">
+                  <h3 class="text-xl font-semibold text-black dark:text-white">
+                    {feature.title}
+                  </h3>
+                  <p class="text-sm leading-relaxed text-black/70 dark:text-white/70">
+                    {feature.description}
+                  </p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      {
+        screenshots.length > 0 && (
+          <section class="space-y-4">
+            <div class="space-y-4" data-slider="screenshots">
+              <div class="slider-frame">
+                {
+                  screenshots.map((shot, index) => (
+                    <img
+                      src={shot.src}
+                      alt={shot.alt}
+                      loading="lazy"
+                      data-slide
+                      class:list={{
+                        "slider-image": true,
+                        "is-active": index === 0,
+                      }}
+                    />
+                  ))
+                }
+                <button type="button" class="slider-control left" data-prev aria-label={t.home.previousSlide}>
+                  &#10094;
+                </button>
+                <button type="button" class="slider-control right" data-next aria-label={t.home.nextSlide}>
+                  &#10095;
+                </button>
+              </div>
+              <div class="slider-thumbs">
+                {
+                  screenshots.map((shot, index) => (
+                    <button
+                      type="button"
+                      data-thumb={index}
+                      class:list={{
+                        thumb: true,
+                        "is-active": index === 0,
+                      }}
+                      aria-label={t.home.screenshotAlt(index + 1)}
+                    >
+                      <img src={shot.src} alt={shot.alt} loading="lazy" />
+                    </button>
+                  ))
+                }
+              </div>
+              <div class="slider-dots">
+                {
+                  screenshots.map((_, index) => (
+                    <button
+                      type="button"
+                      data-dot={index}
+                      class:list={{
+                        dot: true,
+                        "is-active": index === 0,
+                      }}
+                      aria-label={t.home.screenshotAlt(index + 1)}
+                    />
+                  ))
+                }
+              </div>
+            </div>
+            <script is:inline>
+              (() => {
+                const slider = document.querySelector('[data-slider="screenshots"]');
+                if (!slider) return;
+                const slides = Array.from(slider.querySelectorAll('[data-slide]'));
+                const thumbs = Array.from(slider.querySelectorAll('[data-thumb]'));
+                const dots = Array.from(slider.querySelectorAll('[data-dot]'));
+                const prev = slider.querySelector('[data-prev]');
+                const next = slider.querySelector('[data-next]');
+                let index = 0;
+                const total = slides.length;
+                const setActive = (target) => {
+                  index = (target + total) % total;
+                  slides.forEach((slide, idx) => slide.classList.toggle('is-active', idx === index));
+                  thumbs.forEach((thumb, idx) => thumb.classList.toggle('is-active', idx === index));
+                  dots.forEach((dot, idx) => dot.classList.toggle('is-active', idx === index));
+                };
+                prev?.addEventListener('click', () => setActive(index - 1));
+                next?.addEventListener('click', () => setActive(index + 1));
+                thumbs.forEach((thumb) => {
+                  thumb.addEventListener('click', () => {
+                    const target = Number(thumb.getAttribute('data-thumb')) || 0;
+                    setActive(target);
+                  });
+                });
+                dots.forEach((dot) => {
+                  dot.addEventListener('click', () => {
+                    const target = Number(dot.getAttribute('data-dot')) || 0;
+                    setActive(target);
+                  });
+                });
+              })();
+            </script>
+          </section>
+        )
+      }
+
+      <section class="space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-3xl font-semibold text-black dark:text-white">{t.home.latestPosts}</h2>
+          <Link href={addLocalePrefix("/blog", locale)}>{t.home.viewAll}</Link>
+        </div>
+        {blog.length === 0 ? (
+          <div class="animate rounded-2xl border border-dashed border-black/15 p-6 text-sm leading-relaxed text-black/70 dark:border-white/20 dark:text-white/70">
+            <p class="font-semibold text-black dark:text-white">{t.home.emptyBlog.title}</p>
+            <p>
+              {t.home.emptyBlog.description}
+            </p>
+          </div>
+        ) : (
+          <ul class="not-prose flex flex-col gap-4">
+            {blog.map((post) => (
+              <li>
+                <ArrowCard entry={post} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="animate text-2xl font-semibold text-black dark:text-white">{t.home.connect}</h2>
+        <p class="max-w-2xl text-base text-black/70 dark:text-white/70">
+          {t.home.connectDescription}
+        </p>
+        <ul class="animate flex flex-wrap gap-2">
+          {SOCIALS.map((social) => (
+            <li>
+              <a
+                href={social.HREF}
+                class="group flex size-11 items-center justify-center rounded-md border border-black/15 text-black hover:bg-black/5 focus-visible:bg-black/5 dark:border-white/20 dark:text-white dark:hover:bg-white/5 dark:focus-visible:bg-white/5"
+                aria-label={social.NAME}
+                target={social.HREF.startsWith("mailto") ? undefined : "_blank"}
+                rel={social.HREF.startsWith("mailto") ? undefined : "noopener noreferrer"}
+              >
+                <span
+                  class="block h-5 w-5"
+                  style={`background-color: currentColor; mask: url(${social.ICON}) no-repeat center / contain; -webkit-mask: url(${social.ICON}) no-repeat center / contain;`}
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </Container>
+</Layout>
+
+<style>
+  .hero-section {
+    border-radius: 2rem;
+    padding: clamp(2.5rem, 6vw, 4rem);
+    text-align: center;
+    background: radial-gradient(circle at 20% 20%, #2f2f47, #0a0a12);
+    color: white;
+    margin: 0 auto 3rem;
+  }
+
+  .hero-kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .hero-title {
+    font-size: clamp(2.75rem, 10vw, 5.25rem);
+    letter-spacing: clamp(0.05em, 0.3vw, 0.1em);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 1rem;
+    word-break: break-word;
+  }
+
+  .hero-subtitle {
+    max-width: 48rem;
+    margin: 1.5rem auto 0;
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .hero-cta {
+    margin: 2rem auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: opacity 250ms ease;
+  }
+
+  .hero-cta img {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .hero-cta:hover,
+  .hero-cta:focus-visible {
+    opacity: 0.8;
+  }
+
+  .hero-note {
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .trailer-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    aspect-ratio: 16 / 9;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  }
+
+  .trailer-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .feature-media {
+    border-radius: 1rem;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+
+  .feature-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slider-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 2rem;
+    overflow: hidden;
+    background: rgba(5, 5, 5, 0.9);
+  }
+
+  .slider-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 300ms ease, transform 500ms ease;
+  }
+
+  .slider-image.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .slider-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+
+  .slider-control.left {
+    left: 1rem;
+  }
+
+  .slider-control.right {
+    right: 1rem;
+  }
+
+  .slider-thumbs {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  .thumb {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    width: 120px;
+    height: 70px;
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 200ms ease, border-color 200ms ease;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .thumb.is-active {
+    opacity: 1;
+    border-color: white;
+  }
+
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: transparent;
+  }
+
+  .dot.is-active {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      border-radius: 1.5rem;
+      padding: 3rem 1.5rem;
+    }
+
+    .thumb {
+      width: 80px;
+      height: 50px;
+    }
+  }
+</style>

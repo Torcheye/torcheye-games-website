@@ -1,0 +1,88 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import { getLocaleFromUrl, useTranslations } from "@i18n/utils";
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+---
+
+<Layout title={t.studio.label} description={t.studio.description}>
+  <Container>
+    <div class="space-y-12" data-pagefind-ignore>
+      <section class="animate space-y-4">
+        <p class="text-sm uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{t.studio.label}</p>
+        <h1 class="text-4xl font-semibold text-black dark:text-white">{t.studio.heading}</h1>
+        <p class="max-w-2xl text-base text-black/70 dark:text-white/70">
+          {t.studio.description}
+        </p>
+        <ul class="grid gap-3 text-base text-black/80 dark:text-white/70 md:grid-cols-3">
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">{t.studio.values.innovation.title}</li>
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">{t.studio.values.thoughtProvoking.title}</li>
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">{t.studio.values.aesthetic.title}</li>
+        </ul>
+      </section>
+
+      <section class="space-y-6">
+        <h2 class="animate text-2xl font-semibold text-black dark:text-white">{t.studio.team.heading}</h2>
+        <div class="grid gap-6 md:grid-cols-2">
+          <article class="animate space-y-3 rounded-2xl border border-black/15 bg-white/70 p-6 dark:border-white/10 dark:bg-white/5">
+            <figure class="overflow-hidden rounded-xl">
+              <img src="/images/team/King.jpg" alt="Portrait of King Zhou" class="aspect-square w-full object-cover" loading="lazy" />
+            </figure>
+            <div class="space-y-2">
+              <h3 class="text-2xl font-semibold text-black dark:text-white">{t.studio.team.kingzhou.name}</h3>
+              <p class="text-sm uppercase tracking-[0.3em] text-black/60 dark:text-white/50">{t.studio.team.kingzhou.role}</p>
+              <p class="text-base leading-relaxed text-black/70 dark:text-white/70">
+                {t.studio.team.kingzhou.bio}
+              </p>
+            </div>
+          </article>
+          <article class="animate space-y-3 rounded-2xl border border-black/15 bg-white/70 p-6 dark:border-white/10 dark:bg-white/5">
+            <figure class="overflow-hidden rounded-xl">
+              <img src="/images/team/Timmie.jpg" alt="Portrait of Timmie" class="aspect-square w-full object-cover" loading="lazy" />
+            </figure>
+            <div class="space-y-2">
+              <h3 class="text-2xl font-semibold text-black dark:text-white">{t.studio.team.timmie.name}</h3>
+              <p class="text-sm uppercase tracking-[0.3em] text-black/60 dark:text-white/50">{t.studio.team.timmie.role}</p>
+              <p class="text-base leading-relaxed text-black/70 dark:text-white/70">
+                {t.studio.team.timmie.bio}
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="animate text-2xl font-semibold text-black dark:text-white">{t.studio.contact.heading}</h2>
+        <p class="animate max-w-2xl text-base text-black/70 dark:text-white/70">
+          {t.studio.contact.description}
+        </p>
+        <div class="animate flex flex-wrap gap-3">
+          <a
+            href="mailto:hello@torcheyegames.com"
+            class="rounded-sm border border-black/15 px-4 py-2 text-sm font-semibold transition hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white"
+          >
+            {t.studio.contact.email}
+          </a>
+          <a
+            href="https://twitter.com/torcheyegames"
+            class="rounded-sm border border-black/15 px-4 py-2 text-sm font-semibold transition hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t.studio.contact.twitter}
+          </a>
+          <a
+            href="https://discord.gg/RHggGYAQjp"
+            class="rounded-sm border border-black/15 px-4 py-2 text-sm font-semibold transition hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t.studio.contact.discord}
+          </a>
+        </div>
+      </section>
+    </div>
+  </Container>
+</Layout>

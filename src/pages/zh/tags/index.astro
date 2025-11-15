@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import { getLocaleFromUrl, useTranslations, addLocalePrefix } from "@i18n/utils";
+import type { BlogEntry } from "@/types/blog";
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+const posts = (await getCollection("blog")) as BlogEntry[];
+const filtered = posts.filter((post) => !post.data.draft && post.data.locale === locale);
+const tags = [...new Set(filtered.flatMap((post) => post.data.tags || []))].sort();
+---
+
+<Layout title={t.meta.tagsTitle} description={t.meta.tagsDescription}>
+  <Container>
+    <div class="space-y-10">
+      <h1 class="animate font-semibold">{t.tags.allTags}</h1>
+      <div class="animate flex flex-wrap gap-2">
+        {
+          tags.map((tag) => {
+            const count = filtered.filter((post) => post.data.tags?.includes(tag)).length;
+            return (
+              <a
+                href={addLocalePrefix(`/tags/${tag}`, locale)}
+                class="rounded-sm border border-black/15 px-2 py-1 text-sm transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
+              >
+                {tag}{" "}
+                <span class="text-sm text-gray-600">{t.tags.postCount(count)}</span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </Container>
+</Layout>
