@@ -8,7 +8,18 @@ interface Props {
 
 const { locale, currentPath } = Astro.props;
 const alternateLocale: SupportedLanguage = locale === "en" ? "zh" : "en";
-const alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
+
+// Check if we're on a blog post page (not the blog index)
+const isBlogPost = currentPath.includes('/blog/') && !currentPath.endsWith('/blog') && !currentPath.endsWith('/blog/');
+
+let alternateUrl: string;
+if (isBlogPost) {
+  // Redirect to blog index in the alternate language
+  alternateUrl = alternateLocale === "en" ? "/blog" : "/zh/blog";
+} else {
+  // Use normal alternate URL logic
+  alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
+}
 ---
 
 <div class="language-switcher">
@@ -51,7 +62,18 @@ const alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
     const currentPath = window.location.pathname;
     const currentLocale = getLocaleFromUrl(currentPath);
     const alternateLocale: SupportedLanguage = currentLocale === "en" ? "zh" : "en";
-    const alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
+
+    // Check if we're on a blog post page (not the blog index)
+    const isBlogPost = currentPath.includes('/blog/') && !currentPath.endsWith('/blog') && !currentPath.endsWith('/blog/');
+
+    let alternateUrl: string;
+    if (isBlogPost) {
+      // Redirect to blog index in the alternate language
+      alternateUrl = alternateLocale === "en" ? "/blog" : "/zh/blog";
+    } else {
+      // Use normal alternate URL logic
+      alternateUrl = getAlternateLocaleUrl(currentPath, alternateLocale);
+    }
 
     // Update the link and display
     link.href = alternateUrl;
