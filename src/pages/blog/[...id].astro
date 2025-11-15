@@ -8,20 +8,24 @@ import BackToPrevious from "@components/BackToPrevious.astro";
 import PostNavigation from "@components/PostNavigation.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import Giscus from "@components/Giscus.astro";
+import { getLocaleFromUrl, useTranslations, addLocalePrefix } from "@i18n/utils";
+import type { BlogEntry } from "@/types/blog";
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("blog"))
-    .filter((post) => !post.data.draft)
+  const posts = (await getCollection("blog")) as BlogEntry[];
+  const filtered = posts
+    .filter((post) => !post.data.draft && post.data.locale === "en")
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  return posts.map((post) => ({
+  return filtered.map((post) => ({
     params: { id: post.id },
     props: post,
   }));
 }
-type Props = CollectionEntry<"blog">;
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
 
-const posts = (await getCollection("blog"))
-  .filter((post) => !post.data.draft)
+const posts = ((await getCollection("blog")) as BlogEntry[])
+  .filter((post) => !post.data.draft && post.data.locale === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 function getNextPost() {
@@ -54,7 +58,7 @@ const { Content, headings } = await render(post);
 <Layout title={post.data.title} description={post.data.description}>
   <Container variant="blog">
     <div class="animate">
-      <BackToPrevious href="/blog">Back to blog</BackToPrevious>
+      <BackToPrevious href={addLocalePrefix("/blog", locale)}>{t.blog.backToBlog}</BackToPrevious>
     </div>
     <div class="my-10 space-y-1">
       <div class="animate flex items-center gap-1.5">
@@ -64,7 +68,7 @@ const { Content, headings } = await render(post);
         &bull;
         {post.body && (
           <div class="font-base text-sm">
-            {readingTime(post.body)}
+            {readingTime(post.body, locale)}
           </div>
         )}        
       </div>
@@ -76,7 +80,7 @@ const { Content, headings } = await render(post);
           <div class="animate flex gap-2 pt-1">
             {post.data.tags.map((tag) => (
               <a
-                href={`/tags/${tag}`}
+                href={addLocalePrefix(`/tags/${tag}`, locale)}
                 class="rounded-sm border border-black/15 px-2 py-1 text-sm transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
               >
                 {tag}
@@ -90,7 +94,7 @@ const { Content, headings } = await render(post);
     <article class="animate">
       <Content />
       <div class="mt-24">
-        <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+        <PostNavigation prevPost={prevPost} nextPost={nextPost} locale={locale} />
       </div>
       <div class="mt-24">
         <Giscus />

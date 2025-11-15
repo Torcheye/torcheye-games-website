@@ -3,31 +3,38 @@ import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import Link from "@components/Link.astro";
-import { HOME, SITE, SOCIALS } from "@consts";
+import { SITE, SOCIALS } from "@consts";
 import { getCollection } from "astro:content";
 import { readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { extname } from "node:path";
+import { getLocaleFromUrl, useTranslations, addLocalePrefix } from "@i18n/utils";
+import type { BlogEntry } from "@/types/blog";
 
-const blog = (await getCollection("blog"))
-  .filter((post) => !post.data.draft)
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
+
+const blogPosts = (await getCollection("blog")) as BlogEntry[];
+
+const blog = blogPosts
+  .filter((post) => !post.data.draft && post.data.locale === locale)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
 
 const featureVideos = [
   {
-    title: "Embrace Shadows for Exploration",
-    description:"",
+    title: t.home.features.feature1.title,
+    description: t.home.features.feature1.description,
     video: "/images/features/LightObjectDemo.mp4",
   },
   {
-    title: "Manipulate Light to Shape Reality",
-    description:"",
+    title: t.home.features.feature2.title,
+    description: t.home.features.feature2.description,
     video: "/images/features/VineDemo.mp4",
   },
   {
-    title: "Dive into Dreams...",
-    description:"",
+    title: t.home.features.feature3.title,
+    description: t.home.features.feature3.description,
     video: "/images/features/PlayerShadowDimension.mp4",
   },
 ];
@@ -51,24 +58,24 @@ try {
     })
     .map((file, index) => ({
       src: `/images/screenshots/${file}`,
-      alt: `Gameplay screenshot ${index + 1}`,
+      alt: t.home.screenshotAlt(index + 1),
     }));
 } catch (error) {
   screenshots = [];
 }
 ---
 
-<Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+<Layout title={t.meta.homeTitle} description={t.meta.homeDescription}>
   <Container>
     <div class="space-y-16" data-pagefind-ignore>
       <section id="chiaroscuro" class="hero-section animate">
-        <h1 class="hero-title">Chiaroscuro</h1>
+        <h1 class="hero-title">{t.home.hero.title}</h1>
         <p class="hero-subtitle">
-          A first-person puzzle game about lights and shadows
+          {t.home.hero.subtitle}
         </p>
         <a href="https://store.steampowered.com/app/2831270" class="hero-cta">
           <img src="/icons/icon_steam.svg" alt="" aria-hidden="true" />
-          Wishlist on Steam
+          {t.home.hero.cta}
         </a>
       </section>
 
@@ -86,7 +93,7 @@ try {
 
       <section class="space-y-6">
         <div class="animate flex flex-wrap items-center justify-between gap-3">
-          <h2 class="text-3xl font-semibold text-black dark:text-white">Gameplay Features</h2>
+          <h2 class="text-3xl font-semibold text-black dark:text-white">{t.home.features.heading}</h2>
         </div>
         <div class="grid gap-6 md:grid-cols-3">
           {
@@ -128,10 +135,10 @@ try {
                     />
                   ))
                 }
-                <button type="button" class="slider-control left" data-prev aria-label="Previous screenshot">
+                <button type="button" class="slider-control left" data-prev aria-label={t.home.previousSlide}>
                   &#10094;
                 </button>
-                <button type="button" class="slider-control right" data-next aria-label="Next screenshot">
+                <button type="button" class="slider-control right" data-next aria-label={t.home.nextSlide}>
                   &#10095;
                 </button>
               </div>
@@ -145,7 +152,7 @@ try {
                         thumb: true,
                         "is-active": index === 0,
                       }}
-                      aria-label={`View screenshot ${index + 1}`}
+                      aria-label={t.home.screenshotAlt(index + 1)}
                     >
                       <img src={shot.src} alt={shot.alt} loading="lazy" />
                     </button>
@@ -162,7 +169,7 @@ try {
                         dot: true,
                         "is-active": index === 0,
                       }}
-                      aria-label={`Jump to screenshot ${index + 1}`}
+                      aria-label={t.home.screenshotAlt(index + 1)}
                     />
                   ))
                 }
@@ -207,14 +214,14 @@ try {
 
       <section class="space-y-6">
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <h2 class="text-3xl font-semibold text-black dark:text-white">Latest posts</h2>
-          <Link href="/blog">View all</Link>
+          <h2 class="text-3xl font-semibold text-black dark:text-white">{t.home.latestPosts}</h2>
+          <Link href={addLocalePrefix("/blog", locale)}>{t.home.viewAll}</Link>
         </div>
         {blog.length === 0 ? (
           <div class="animate rounded-2xl border border-dashed border-black/15 p-6 text-sm leading-relaxed text-black/70 dark:border-white/20 dark:text-white/70">
-            <p class="font-semibold text-black dark:text-white">Dev blog launching soon</p>
+            <p class="font-semibold text-black dark:text-white">{t.home.emptyBlog.title}</p>
             <p>
-              Expect deep dives into game design, art direction, programming breakdowns, and studio updates once entries begin rolling out.
+              {t.home.emptyBlog.description}
             </p>
           </div>
         ) : (
@@ -229,9 +236,9 @@ try {
       </section>
 
       <section class="space-y-4">
-        <h2 class="animate text-2xl font-semibold text-black dark:text-white">Connect</h2>
+        <h2 class="animate text-2xl font-semibold text-black dark:text-white">{t.home.connect}</h2>
         <p class="max-w-2xl text-base text-black/70 dark:text-white/70">
-          Follow along for progress drops, calls for playtests, and community events.
+          {t.home.connectDescription}
         </p>
         <ul class="animate flex flex-wrap gap-2">
           {SOCIALS.map((social) => (

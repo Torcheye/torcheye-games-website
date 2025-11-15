@@ -1,38 +1,40 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/Container.astro";
+import { getLocaleFromUrl, useTranslations } from "@i18n/utils";
+
+const locale = getLocaleFromUrl(Astro.url);
+const t = useTranslations(locale);
 ---
 
-<Layout title="Studio" description="Meet the small team behind Torcheye Games.">
+<Layout title={t.studio.label} description={t.studio.description}>
   <Container>
     <div class="space-y-12" data-pagefind-ignore>
       <section class="animate space-y-4">
-        <p class="text-sm uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">Studio</p>
-        <h1 class="text-4xl font-semibold text-black dark:text-white">About Torcheye Games</h1>
+        <p class="text-sm uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400">{t.studio.label}</p>
+        <h1 class="text-4xl font-semibold text-black dark:text-white">{t.studio.heading}</h1>
         <p class="max-w-2xl text-base text-black/70 dark:text-white/70">
-          Innovation at the foremost. Thought-provoking. Aesthetically groundbreaking. We build atmospheric interactive
-          experiences by obsessing over light, shadow, and the emotions that live between them.
+          {t.studio.description}
         </p>
         <ul class="grid gap-3 text-base text-black/80 dark:text-white/70 md:grid-cols-3">
-          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">Innovation at the foremost</li>
-          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">Thought-provoking</li>
-          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">Aesthetically groundbreaking</li>
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">{t.studio.values.innovation.title}</li>
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">{t.studio.values.thoughtProvoking.title}</li>
+          <li class="rounded-xl border border-black/15 px-4 py-3 text-center dark:border-white/20">{t.studio.values.aesthetic.title}</li>
         </ul>
       </section>
 
       <section class="space-y-6">
-        <h2 class="animate text-2xl font-semibold text-black dark:text-white">The Team</h2>
+        <h2 class="animate text-2xl font-semibold text-black dark:text-white">{t.studio.team.heading}</h2>
         <div class="grid gap-6 md:grid-cols-2">
           <article class="animate space-y-3 rounded-2xl border border-black/15 bg-white/70 p-6 dark:border-white/10 dark:bg-white/5">
             <figure class="overflow-hidden rounded-xl">
               <img src="/images/team/King.jpg" alt="Portrait of King Zhou" class="aspect-square w-full object-cover" loading="lazy" />
             </figure>
             <div class="space-y-2">
-              <h3 class="text-2xl font-semibold text-black dark:text-white">King Zhou</h3>
-              <p class="text-sm uppercase tracking-[0.3em] text-black/60 dark:text-white/50">Founder & Developer</p>
+              <h3 class="text-2xl font-semibold text-black dark:text-white">{t.studio.team.kingzhou.name}</h3>
+              <p class="text-sm uppercase tracking-[0.3em] text-black/60 dark:text-white/50">{t.studio.team.kingzhou.role}</p>
               <p class="text-base leading-relaxed text-black/70 dark:text-white/70">
-                Passionate, curious, and creative. Devoted to crafting innovative, beautiful, and accessible interactive
-                experiences. When not coding, King can be found exploring euro board games, culinary experiments, and nature.
+                {t.studio.team.kingzhou.bio}
               </p>
             </div>
           </article>
@@ -41,11 +43,10 @@ import Container from "@components/Container.astro";
               <img src="/images/team/Timmie.jpg" alt="Portrait of Timmie" class="aspect-square w-full object-cover" loading="lazy" />
             </figure>
             <div class="space-y-2">
-              <h3 class="text-2xl font-semibold text-black dark:text-white">Timmie</h3>
-              <p class="text-sm uppercase tracking-[0.3em] text-black/60 dark:text-white/50">Chief Morale Officer</p>
+              <h3 class="text-2xl font-semibold text-black dark:text-white">{t.studio.team.timmie.name}</h3>
+              <p class="text-sm uppercase tracking-[0.3em] text-black/60 dark:text-white/50">{t.studio.team.timmie.role}</p>
               <p class="text-base leading-relaxed text-black/70 dark:text-white/70">
-                Professional keyboard warmer and bug finder. Specializes in QA by strolling across the keyboard at critical
-                moments. Expert in nap optimization and providing emotional support during crunch time.
+                {t.studio.team.timmie.bio}
               </p>
             </div>
           </article>
@@ -53,17 +54,16 @@ import Container from "@components/Container.astro";
       </section>
 
       <section class="space-y-4">
-        <h2 class="animate text-2xl font-semibold text-black dark:text-white">Get in touch</h2>
+        <h2 class="animate text-2xl font-semibold text-black dark:text-white">{t.studio.contact.heading}</h2>
         <p class="animate max-w-2xl text-base text-black/70 dark:text-white/70">
-          We'd love to hear from you. For partnership ideas, feedback, or to simply say hi, reach out through the
-          channels below.
+          {t.studio.contact.description}
         </p>
         <div class="animate flex flex-wrap gap-3">
           <a
             href="mailto:hello@torcheyegames.com"
             class="rounded-sm border border-black/15 px-4 py-2 text-sm font-semibold transition hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white"
           >
-            Email us
+            {t.studio.contact.email}
           </a>
           <a
             href="https://twitter.com/torcheyegames"
@@ -71,7 +71,7 @@ import Container from "@components/Container.astro";
             target="_blank"
             rel="noopener noreferrer"
           >
-            Twitter
+            {t.studio.contact.twitter}
           </a>
           <a
             href="https://discord.gg/RHggGYAQjp"
@@ -79,7 +79,7 @@ import Container from "@components/Container.astro";
             target="_blank"
             rel="noopener noreferrer"
           >
-            Discord
+            {t.studio.contact.discord}
           </a>
         </div>
       </section>
