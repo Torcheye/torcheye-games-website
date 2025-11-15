@@ -135,7 +135,7 @@ export const zh: Translation = {
 
   // 元数据
   meta: {
-    siteTitle: "Torcheye Games",
+    siteTitle: "炬目游戏",
     siteDescription: "独立游戏工作室，打造富有氛围感的体验。正在开发光影迷踪，一款关于光与影的第一人称解谜游戏。",
     homeTitle: "主页",
     homeDescription: "发现光影迷踪，关注我们关于光与影的氛围解谜游戏的开发。",
