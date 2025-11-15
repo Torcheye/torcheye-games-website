@@ -1,12 +1,22 @@
 ---
 import Container from "@components/Container.astro";
 import Link from "@components/Link.astro";
+import LanguageSwitcher from "@components/LanguageSwitcher.astro";
 import { SITE, SOCIALS } from "@consts";
+import { useTranslations, addLocalePrefix, type SupportedLanguage } from "@i18n/utils";
+
+interface Props {
+  locale: SupportedLanguage;
+  currentPath: string;
+}
+
+const { locale, currentPath } = Astro.props;
+const t = useTranslations(locale);
 
 const navLinks = [
-  { label: "Chiaroscuro", href: "/#chiaroscuro" },
-  { label: "Studio", href: "/studio" },
-  { label: "Blog", href: "/blog" },
+  { label: t.nav.home, href: addLocalePrefix("/#chiaroscuro", locale) },
+  { label: t.nav.studio, href: addLocalePrefix("/studio", locale) },
+  { label: t.nav.blog, href: addLocalePrefix("/blog", locale) },
 ];
 
 ---
@@ -15,7 +25,7 @@ const navLinks = [
   <Container>
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div class="flex flex-wrap items-center gap-4">
-        <Link href="/" underline={false}>
+        <Link href={addLocalePrefix("/", locale)} underline={false}>
           <div class="flex items-center gap-2 font-semibold">
             <img
               src="/favicon.png"
@@ -39,7 +49,7 @@ const navLinks = [
           <span>/</span>
           <button
             id="magnifying-glass"
-            aria-label="Search"
+            aria-label={t.nav.search}
             class="flex items-center rounded-sm border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
           >
             <svg
@@ -56,11 +66,12 @@ const navLinks = [
                 fill="currentColor"
               ></path>
             </svg>
-            &nbsp;Search
+            &nbsp;{t.nav.search}
           </button>
         </nav>
       </div>
       <div class="flex flex-wrap items-center gap-1.5">
+        <LanguageSwitcher locale={locale} currentPath={currentPath} />
         {
           SOCIALS.map((social) => (
             <a

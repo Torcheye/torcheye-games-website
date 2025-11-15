@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { formatDate, readingTime } from "@lib/utils";
+import { addLocalePrefix, type SupportedLanguage } from "@i18n/utils";
+import type { BlogEntry } from "@/types/blog";
 
 type Props = {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
@@ -11,18 +13,26 @@ const { entry } = Astro.props as {
 };
 
 const isBlogEntry = entry.collection === "blog";
-const formattedDate = isBlogEntry ? formatDate(entry.data.date) : null;
+const entryLocale: SupportedLanguage = isBlogEntry
+  ? (entry as BlogEntry).data.locale
+  : "en";
+const formattedDate = isBlogEntry ? formatDate(entry.data.date, entryLocale) : null;
 const estimatedRead =
-  isBlogEntry && entry.body ? readingTime(entry.body) : null;
+  isBlogEntry && entry.body ? readingTime(entry.body, entryLocale) : null;
 const metaLine =
   isBlogEntry && formattedDate && estimatedRead
     ? `${formattedDate} • ${estimatedRead}`
     : null;
 const description = entry.data.description ?? "";
+
+const href =
+  entry.collection === "blog"
+    ? addLocalePrefix(`/blog/${entry.id}`, entryLocale)
+    : `/${entry.collection}/${entry.id}`;
 ---
 
 <a
-  href={`/${entry.collection}/${entry.id}`}
+  href={href}
   class="not-prose group relative flex flex-nowrap rounded-xl border border-black/15 px-5 py-4 pr-12 transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
 >
   <div class="flex flex-1 flex-col gap-1.5 min-w-0">

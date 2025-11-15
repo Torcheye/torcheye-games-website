@@ -1,12 +1,24 @@
 ---
-const { prevPost, nextPost } = Astro.props;
+import type { CollectionEntry } from "astro:content";
+import { addLocalePrefix, type SupportedLanguage } from "@i18n/utils";
+
+interface Props {
+  prevPost?: CollectionEntry<"blog">;
+  nextPost?: CollectionEntry<"blog">;
+  locale: SupportedLanguage;
+}
+
+const { prevPost, nextPost, locale } = Astro.props as Props;
+
+const buildHref = (post?: CollectionEntry<"blog">) =>
+  post ? addLocalePrefix(`/blog/${post.id}`, locale) : "#";
 ---
 
 <div class="grid grid-cols-2 gap-1.5 sm:gap-3">
   {
     prevPost?.id ? (
       <a
-        href={`/blog/${prevPost?.id}`}
+        href={buildHref(prevPost)}
         class="group relative flex flex-nowrap rounded-lg border border-black/15 px-4 py-3 pl-10 no-underline transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
       >
         <svg
@@ -36,7 +48,7 @@ const { prevPost, nextPost } = Astro.props;
   {
     nextPost?.id ? (
       <a
-        href={`/blog/${nextPost?.id}`}
+        href={buildHref(nextPost)}
         class="group relative flex grow flex-row-reverse flex-nowrap rounded-lg border border-black/15 px-4 py-4 pr-10 no-underline transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
       >
         <svg
