@@ -67,7 +67,7 @@ const navLinks = [
                 fill="currentColor"
               ></path>
             </svg>
-            &nbsp;{t.nav.search}
+            <span class="ml-1" data-search-label data-i18n-key="nav.search">{t.nav.search}</span>
           </button>
         </nav>
       </div>
@@ -137,19 +137,15 @@ const navLinks = [
       }
     });
 
-    // Update search button text
+    // Update search button label and aria text
     const searchButton = document.querySelector<HTMLButtonElement>('#magnifying-glass');
     if (searchButton && translations) {
-      const i18nKey = searchButton.getAttribute('data-i18n-key');
-      if (i18nKey) {
-        const translatedText = getNestedProperty(translations, i18nKey);
-        if (translatedText) {
-          searchButton.setAttribute('aria-label', translatedText);
-          // Update the text content (the text after the SVG)
-          const textNode = Array.from(searchButton.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
-          if (textNode) {
-            textNode.textContent = `\u00A0${translatedText}`;
-          }
+      const translatedText = getNestedProperty(translations, 'nav.search');
+      if (translatedText) {
+        searchButton.setAttribute('aria-label', translatedText);
+        const label = searchButton.querySelector<HTMLElement>('[data-search-label]');
+        if (label) {
+          label.textContent = translatedText;
         }
       }
     }
