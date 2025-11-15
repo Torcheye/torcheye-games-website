@@ -7,7 +7,26 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   site: "https://torcheyegames.com",
   output: "static",
-  integrations: [sitemap(), mdx(), pagefind()],
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "zh"],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: "en",
+        locales: {
+          en: "en-US",
+          zh: "zh-CN",
+        },
+      },
+    }),
+    mdx(),
+    pagefind(),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
