@@ -1,8 +1,9 @@
 ---
 title: "Chiaroscuro Devlog #1: From States to Signals — Refactoring the Interaction System"
-date: 2025-11-12
+date: 2025-11-15
 description: "We rebuilt Chiaroscuro's interaction system around event-driven signals, modular behaviors, and trigger-based detection for faster iteration."
 excerpt: "We rebuilt Chiaroscuro's interaction system around event-driven signals, modular behaviors, and trigger-based detection for faster iteration."
+locale: en
 tags:
   - deisgn pattern
   - unity
@@ -129,7 +130,6 @@ Execute(interactable, context) {
 ## UI hooks and control mode feedback
 
 The manager emits state changes, which a small UI controller listens to. That controller swaps crosshair styles (idle, focus, grab/hold) and can fade a subtle border when in “control mode.” Because these are just event listeners, you can iterate on UI feedback without touching interaction logic.
-
 
 <figure class="image image-h-tall" data-lightbox>
   <img
