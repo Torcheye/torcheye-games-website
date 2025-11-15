@@ -4,6 +4,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import Pagefind from "@components/PageFind.astro";
 import { SITE } from "@consts";
+import { getLocaleFromUrl } from "@i18n/utils";
 
 type Props = {
   title: string;
@@ -11,10 +12,13 @@ type Props = {
 };
 
 const { title, description } = Astro.props;
+const locale = getLocaleFromUrl(Astro.url);
+const currentPath = Astro.url.pathname;
+const langMap = { en: "en", zh: "zh-CN" };
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={langMap[locale]}>
   <head>
     <Head title={`${title} | ${SITE.TITLE}`} description={description} />
   </head>
@@ -27,11 +31,11 @@ const { title, description } = Astro.props;
         }
       </style>
     </noscript>
-    <Header />
+    <Header locale={locale} currentPath={currentPath} />
     <main>
       <slot />
     </main>
-    <Footer />
+    <Footer locale={locale} />
     <Pagefind />
     <script is:inline>
       let overlay;
