@@ -14,9 +14,9 @@ const { locale, currentPath } = Astro.props;
 const t = useTranslations(locale);
 
 const navLinks = [
-  { label: t.nav.home, href: addLocalePrefix("/#chiaroscuro", locale) },
-  { label: t.nav.studio, href: addLocalePrefix("/studio", locale) },
-  { label: t.nav.blog, href: addLocalePrefix("/blog", locale) },
+  { label: t.nav.home, href: addLocalePrefix("/#chiaroscuro", locale), basePath: "/#chiaroscuro", i18nKey: "nav.home" },
+  { label: t.nav.studio, href: addLocalePrefix("/studio", locale), basePath: "/studio", i18nKey: "nav.studio" },
+  { label: t.nav.blog, href: addLocalePrefix("/blog", locale), basePath: "/blog", i18nKey: "nav.blog" },
 ];
 
 ---
@@ -25,7 +25,7 @@ const navLinks = [
   <Container>
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div class="flex flex-wrap items-center gap-4">
-        <Link href={addLocalePrefix("/", locale)} underline={false}>
+        <Link href={addLocalePrefix("/", locale)} underline={false} data-nav-link data-base-path="/">
           <div class="flex items-center gap-2 font-semibold">
             <img
               src="/favicon.png"
@@ -34,14 +34,14 @@ const navLinks = [
               width="24"
               height="24"
             />
-            {SITE.TITLE}
+            <span data-i18n-key="meta.siteTitle">{SITE.TITLE}</span>
           </div>
         </Link>
         <nav class="flex flex-wrap items-center gap-1 text-sm text-black/80 dark:text-white/80">
           {
             navLinks.map((link, index) => (
               <>
-                <Link href={link.href}>{link.label}</Link>
+                <Link href={link.href} data-nav-link data-base-path={link.basePath} data-i18n-key={link.i18nKey}>{link.label}</Link>
                 {index < navLinks.length - 1 && <span>/</span>}
               </>
             ))
@@ -50,6 +50,7 @@ const navLinks = [
           <button
             id="magnifying-glass"
             aria-label={t.nav.search}
+            data-i18n-key="nav.search"
             class="flex items-center rounded-sm border border-black/15 bg-neutral-100 px-2 py-1 text-xs transition-colors duration-300 ease-in-out hover:bg-black/5 hover:text-black focus-visible:bg-black/5 focus-visible:text-black dark:border-white/20 dark:bg-neutral-900 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:bg-white/5 dark:focus-visible:text-white"
           >
             <svg
@@ -93,3 +94,70 @@ const navLinks = [
     </div>
   </Container>
 </header>
+
+<script>
+  import { getLocaleFromUrl, addLocalePrefix, ui, type SupportedLanguage } from "@i18n/utils";
+
+  // Helper function to get nested property from object using dot notation
+  function getNestedProperty(obj: any, path: string): any {
+    return path.split('.').reduce((current, key) => current?.[key], obj);
+  }
+
+  function updateNavigationLinks() {
+    const currentPath = window.location.pathname;
+    const currentLocale = getLocaleFromUrl(currentPath);
+    const translations = ui[currentLocale];
+
+    // Update navigation link hrefs and text
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+    navLinks.forEach(link => {
+      const basePath = link.getAttribute('data-base-path');
+      if (basePath) {
+        link.href = addLocalePrefix(basePath, currentLocale);
+      }
+
+      const i18nKey = link.getAttribute('data-i18n-key');
+      if (i18nKey && translations) {
+        const translatedText = getNestedProperty(translations, i18nKey);
+        if (translatedText) {
+          link.textContent = translatedText;
+        }
+      }
+    });
+
+    // Update all other i18n elements (site title, etc.)
+    const i18nElements = document.querySelectorAll<HTMLElement>('[data-i18n-key]:not([data-nav-link]):not(#magnifying-glass)');
+    i18nElements.forEach(element => {
+      const i18nKey = element.getAttribute('data-i18n-key');
+      if (i18nKey && translations) {
+        const translatedText = getNestedProperty(translations, i18nKey);
+        if (translatedText) {
+          element.textContent = translatedText;
+        }
+      }
+    });
+
+    // Update search button text
+    const searchButton = document.querySelector<HTMLButtonElement>('#magnifying-glass');
+    if (searchButton && translations) {
+      const i18nKey = searchButton.getAttribute('data-i18n-key');
+      if (i18nKey) {
+        const translatedText = getNestedProperty(translations, i18nKey);
+        if (translatedText) {
+          searchButton.setAttribute('aria-label', translatedText);
+          // Update the text content (the text after the SVG)
+          const textNode = Array.from(searchButton.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+          if (textNode) {
+            textNode.textContent = `\u00A0${translatedText}`;
+          }
+        }
+      }
+    }
+  }
+
+  // Update on initial load
+  updateNavigationLinks();
+
+  // Update after Astro view transitions
+  document.addEventListener('astro:page-load', updateNavigationLinks);
+</script>
