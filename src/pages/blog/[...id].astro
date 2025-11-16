@@ -55,7 +55,14 @@ const post = Astro.props;
 const { Content, headings } = await render(post);
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  image={post.data.coverImage}
+  publishedTime={post.data.date.toISOString()}
+  modifiedTime={post.data.updatedDate?.toISOString()}
+>
   <Container variant="blog">
     <div class="animate">
       <BackToPrevious href={addLocalePrefix("/blog", locale)}>{t.blog.backToBlog}</BackToPrevious>

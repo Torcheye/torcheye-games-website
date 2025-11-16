@@ -9,9 +9,13 @@ import { getLocaleFromUrl } from "@i18n/utils";
 type Props = {
   title: string;
   description: string;
+  image?: string;
+  type?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
 };
 
-const { title, description } = Astro.props;
+const { title, description, image, type, publishedTime, modifiedTime } = Astro.props;
 const locale = getLocaleFromUrl(Astro.url);
 const currentPath = Astro.url.pathname;
 const langMap = { en: "en", zh: "zh-CN" };
@@ -20,7 +24,14 @@ const langMap = { en: "en", zh: "zh-CN" };
 <!doctype html>
 <html lang={langMap[locale]}>
   <head>
-    <Head title={`${title} | ${SITE.TITLE}`} description={description} />
+    <Head
+      title={`${title} | ${SITE.TITLE}`}
+      description={description}
+      image={image}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+    />
   </head>
   <body>
     <noscript>
