@@ -8,7 +8,7 @@ export const zh: Translation = {
   nav: {
     home: "光影迷踪",
     studio: "工作室",
-    blog: "博客",
+    blog: "文章",
     search: "搜索",
   },
 
@@ -23,7 +23,7 @@ export const zh: Translation = {
   home: {
     hero: {
       title: "光影迷踪",
-      subtitle: "关于光与影的第一人称解谜游戏",
+      subtitle: "黑白闪烁模糊了现实的边界，在光与影交错的世界中探索未知",
       cta: "加入Steam愿望单",
     },
     features: {
@@ -56,7 +56,7 @@ export const zh: Translation = {
 
   // 工作室页面
   studio: {
-    label: "炬目游戏工作室",
+    label: "工作室",
     heading: "关于炬目游戏",
     description: "炬目游戏是一家独立游戏工作室，致力于打造富有氛围感、发人深省的游戏体验。在我们的首款作品光影迷踪中，探索体验光与影的魔术变换。",
     values: {
@@ -136,10 +136,10 @@ export const zh: Translation = {
   // 元数据
   meta: {
     siteTitle: "炬目游戏",
-    siteDescription: "独立游戏工作室，打造富有氛围感的体验。正在开发光影迷踪，一款关于光与影的第一人称解谜游戏。",
+    siteDescription: "独立游戏工作室，打造独特而美丽的交互体验。正在开发光影迷踪，一款关于光与影的第一人称解谜游戏。",
     homeTitle: "主页",
     homeDescription: "发现光影迷踪，关注我们关于光与影的氛围解谜游戏的开发。",
-    blogTitle: "博客",
+    blogTitle: "文章",
     blogDescription: "来自光影迷踪团队的开发见解、设计决策和幕后更新。",
     projectsTitle: "作品",
     projectsDescription: "来自炬目游戏的氛围游戏和互动体验。",
