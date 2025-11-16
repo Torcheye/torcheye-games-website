@@ -3,6 +3,7 @@ title: "Chiaroscuro Devlog #1: From States to Signals — Refactoring the Intera
 date: 2025-11-15
 description: "We rebuilt Chiaroscuro's interaction system around event-driven signals, modular behaviors, and trigger-based detection for faster iteration."
 excerpt: "We rebuilt Chiaroscuro's interaction system around event-driven signals, modular behaviors, and trigger-based detection for faster iteration."
+coverImage: "/devlog/interactive-system-refactor/diagram_1.png"
 locale: en
 tags:
   - deisgn pattern

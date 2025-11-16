@@ -3,6 +3,7 @@ title: "光影迷踪开发日志 #1：从状态到信号——交互系统重构
 date: 2025-11-15
 description: "我们把光影迷踪的交互系统重写成 event-driven（事件驱动）信号 + 模块化行为 + trigger（触发器）检测，让迭代速度直接起飞"
 excerpt: "我们把光影迷踪的交互系统重写成 event-driven（事件驱动）信号 + 模块化行为 + trigger（触发器）检测，让迭代速度直接起飞"
+coverImage: "/devlog/interactive-system-refactor/diagram_1.png"
 locale: zh
 tags:
   - design pattern
