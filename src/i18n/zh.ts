@@ -37,7 +37,7 @@ export const zh: Translation = {
         description: "",
       },
       feature3: {
-        title: "潜入梦境与噩梦",
+        title: "潜入诡谲的梦境...",
         description: "",
       },
     },
