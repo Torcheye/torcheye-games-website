@@ -14,6 +14,9 @@ import type { BlogEntry } from "@/types/blog";
 const locale = getLocaleFromUrl(Astro.url);
 const t = useTranslations(locale);
 
+// Toggle between image and text hero
+const USE_HERO_IMAGE = true;
+
 const blogPosts = (await getCollection("blog")) as BlogEntry[];
 
 const blog = blogPosts
@@ -42,6 +45,8 @@ const featureVideos = [
 const trailerId = "d-wI4MjySb8";
 const trailerSrc = `https://www.youtube.com/embed/${trailerId}?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&playlist=${trailerId}`;
 
+const heroCoverImage = locale === "zh" ? "/cover_landscape_1080p_zh.png" : "/cover_landscape_1080p_en.png";
+
 const screenshotDir = fileURLToPath(
   new URL("../../public/images/screenshots", import.meta.url),
 );
@@ -69,14 +74,26 @@ try {
   <Container>
     <div class="space-y-16" data-pagefind-ignore>
       <section id="chiaroscuro" class="hero-section animate">
-        <h1 class="hero-title">{t.home.hero.title}</h1>
-        <p class="hero-subtitle">
-          {t.home.hero.subtitle}
-        </p>
-        <a href="https://store.steampowered.com/app/2831270" class="hero-cta">
-          <img src="/icons/icon_steam.svg" alt="" aria-hidden="true" />
-          {t.home.hero.cta}
-        </a>
+        {USE_HERO_IMAGE ? (
+          <>
+            <img src={heroCoverImage} alt={t.home.hero.title} class="hero-image" />
+            <a href="https://store.steampowered.com/app/2831270" class="hero-cta">
+              <img src="/icons/icon_steam.svg" alt="" aria-hidden="true" />
+              {t.home.hero.cta}
+            </a>
+          </>
+        ) : (
+          <>
+            <h1 class="hero-title">{t.home.hero.title}</h1>
+            <p class="hero-subtitle">
+              {t.home.hero.subtitle}
+            </p>
+            <a href="https://store.steampowered.com/app/2831270" class="hero-cta">
+              <img src="/icons/icon_steam.svg" alt="" aria-hidden="true" />
+              {t.home.hero.cta}
+            </a>
+          </>
+        )}
       </section>
 
       <section class="trailer-section animate">
@@ -267,10 +284,20 @@ try {
 <style>
   .hero-section {
     border-radius: 2rem;
-    padding: clamp(2.5rem, 6vw, 4rem);
-    text-align: center;
     margin: 0 auto 3rem;
-    color: inherit;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2rem;
+    max-width: 100%;
   }
 
   .hero-kicker {
@@ -285,7 +312,6 @@ try {
     text-transform: uppercase;
     font-family: "Big Shoulders Display", var(--font-sans);
     font-weight: 600;
-    margin-top: 1rem;
     word-break: break-word;
   }
 
@@ -299,7 +325,6 @@ try {
   }
 
   .hero-cta {
-    margin: 2rem auto 0;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -310,6 +335,7 @@ try {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     transition: opacity 250ms ease;
+    color: inherit;
   }
 
   .hero-cta img {
@@ -320,14 +346,6 @@ try {
   .hero-cta:hover,
   .hero-cta:focus-visible {
     opacity: 0.8;
-  }
-
-  .hero-note {
-    font-size: 0.85rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-top: 1rem;
-    color: rgba(255, 255, 255, 0.75);
   }
 
   .trailer-frame {
