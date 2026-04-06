@@ -57,9 +57,13 @@ try {
   screenshots = files
     .filter((file) => supported.includes(extname(file).toLowerCase()))
     .sort((a, b) => {
-      const numA = parseInt(a.match(/\d+/)?.[0] ?? "0", 10);
-      const numB = parseInt(b.match(/\d+/)?.[0] ?? "0", 10);
-      return numA - numB;
+      const matchA = a.match(/\d+/);
+      const matchB = b.match(/\d+/);
+      // Non-numbered files (new additions) come first
+      if (!matchA && matchB) return -1;
+      if (matchA && !matchB) return 1;
+      if (!matchA && !matchB) return a.localeCompare(b);
+      return parseInt(matchA![0], 10) - parseInt(matchB![0], 10);
     })
     .map((file, index) => ({
       src: `/images/screenshots/${file}`,
